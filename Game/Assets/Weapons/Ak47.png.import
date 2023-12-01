@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://4mrwspp75uqv"
-path="res://.godot/imported/player.png-5fe826d179e8297c657fd07c30124f2f.ctex"
+uid="uid://c2jenus1w6qe2"
+path="res://.godot/imported/Ak47.png-5d33d77372ce07c21b11889382a89af5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/player.png"
-dest_files=["res://.godot/imported/player.png-5fe826d179e8297c657fd07c30124f2f.ctex"]
+source_file="res://Assets/Weapons/Ak47.png"
+dest_files=["res://.godot/imported/Ak47.png-5d33d77372ce07c21b11889382a89af5.ctex"]
 
 [params]
 
