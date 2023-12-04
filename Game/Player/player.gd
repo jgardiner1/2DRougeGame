@@ -12,7 +12,6 @@ const MIDDLE = 90
 @onready var anim = get_node("AnimationPlayer")
 @onready var InHandItem = get_node("InHandItem")
 @onready var world = get_parent()
-@onready var gun = load("res://base_item.tscn")
 
 var collided_item = null
 
@@ -93,24 +92,24 @@ func update_InHandItem_direction() -> void:
 func drop_item() -> void:
 	# executes if something is in players hand
 	if InHandItem.get_child_count() != 0:
-		print("we have child")
 		var ref_item = get_node("InHandItem").get_child(0)
+		print(ref_item)
 		
-		var item = gun.instantiate()
-		item.position = ref_item.global_position
-		ref_item.position = Vector2.ZERO
-		
-		remove_child(get_node("InHandItem").get_child(0))
-		item.add_child(ref_item)
-		ref_item.queue_free()
-		world.add_child(item)
+		ref_item.reparent(world)
+		collided_item.rotation = 0
+	else:
+		print("Nothing to drop")
 
 func pickup_item() -> void:
-	if get_node("InHandItem").get_child_count() == 0 and collided_item != null:
-		var ref_item = collided_item
-		
-		InHandItem.add_child(gun.instantiate())
-		collided_item.queue_free()
+	if get_node("InHandItem").get_child_count() != 0:
+		return print("Hand full")
+	if collided_item == null:
+		return print("Nothing to pick up")
+	
+	collided_item.reparent(InHandItem)
+	collided_item.rotation = 0
+	collided_item.position = Vector2.ZERO
+	print("Picked up ", collided_item)
 
 func print_all_nodes():
 	print(get_node("InHandItem").get_child_count())

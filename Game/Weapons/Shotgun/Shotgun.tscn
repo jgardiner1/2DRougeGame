@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://cvfy3cxyu7np1"]
+
+[ext_resource type="Texture2D" uid="uid://hlrvufc7juum" path="res://Sprites/Weapons/Shotgun.png" id="1_1c1k4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_g1g1d"]
+radius = 52.0096
+
+[node name="Shotgun" type="Node2D"]
+
+[node name="ItemSprite" type="Sprite2D" parent="."]
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("1_1c1k4")
+
+[node name="PickupRadius" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupRadius"]
+shape = SubResource("CircleShape2D_g1g1d")
