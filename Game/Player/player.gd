@@ -8,14 +8,32 @@ const MIN = -140
 const MAX = -40
 const MIDDLE = 90
 
-# Nodes needed through this script
+# Nodes needed throughout this script
 @onready var anim = get_node("AnimationPlayer")
-@onready var gun = get_node("Gun")
+@onready var InHandItem = get_node("InHandItem")
+@onready var world = get_parent()
+@onready var gun = load("res://base_item.tscn")
+
+var collided_item = null
+
+# Main loop executed every frame
+func _physics_process(_delta):
+	handle_movement()
+	update_InHandItem_direction()
+	handle_animations()
+	move_and_slide()
+
+	if Input.is_action_just_pressed("drop"):
+		drop_item()
+	if Input.is_action_just_pressed("pickup"):
+		pickup_item()
+	if Input.is_key_pressed(KEY_T):
+		print_all_nodes()
 
 # Returns angle from center of player to users mouse
 func calc_aim_rotation() -> float:
-	# calculate angle between gun position and mouse cursor
-	var angle = (get_local_mouse_position() - gun.position).angle()
+	# calculate angle between InHandItem position and mouse cursor
+	var angle = (get_local_mouse_position() - InHandItem.position).angle()
 	# return angle
 	return angle
 
@@ -60,19 +78,40 @@ func handle_animations() -> void:
 			0:
 				anim.play("BackFaceIdle")
 
-# Updates gun direction and index
-func update_gun_direction() -> void:
+# Updates InHandItem direction and index
+func update_InHandItem_direction() -> void:
 	var angle = calc_aim_rotation()
-	gun.rotation = angle
+	InHandItem.rotation = angle
 	
 	var direction = determine_face_direction(rad_to_deg(angle))
 	# Gun index goes behind if the direction is looking back, otherwise it goes to top
-	gun.z_index = -1 if direction == 0 else 1
+	InHandItem.z_index = -1 if direction == 0 else 1
 	# Sprite is horizontally flipped if direction is left
 	get_node("AnimatedSprite2D").flip_h = true if direction == -1 else false
 
-func _physics_process(_delta):
-	handle_movement()
-	update_gun_direction()
-	handle_animations()
-	move_and_slide()
+# Executed when drop item button pressed. Nothing happens if players hand is empty
+func drop_item() -> void:
+	# executes if something is in players hand
+	if InHandItem.get_child_count() != 0:
+		print("we have child")
+		var ref_item = get_node("InHandItem").get_child(0)
+		
+		var item = gun.instantiate()
+		item.position = ref_item.global_position
+		ref_item.position = Vector2.ZERO
+		
+		remove_child(get_node("InHandItem").get_child(0))
+		item.add_child(ref_item)
+		ref_item.queue_free()
+		world.add_child(item)
+
+func pickup_item() -> void:
+	if get_node("InHandItem").get_child_count() == 0 and collided_item != null:
+		var ref_item = collided_item
+		
+		InHandItem.add_child(gun.instantiate())
+		collided_item.queue_free()
+
+func print_all_nodes():
+	print(get_node("InHandItem").get_child_count())
+	print("\n")

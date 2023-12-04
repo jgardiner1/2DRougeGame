@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://cx3asga07t6xu"]
+[gd_scene load_steps=6 format=3 uid="uid://cx3asga07t6xu"]
 
 [ext_resource type="PackedScene" uid="uid://b4minadmxbr2v" path="res://Player/player.tscn" id="1_nh71t"]
+[ext_resource type="PackedScene" uid="uid://dy4ehaadin7nd" path="res://base_item.tscn" id="2_tx307"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dmb1w"]
 size = Vector2(1207.5, 299)
@@ -17,6 +18,8 @@ size = Vector2(72, 406)
 position = Vector2(522, 214)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 3
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(583.25, 540)
@@ -60,3 +63,14 @@ offset_top = -211.0
 offset_right = 550.0
 offset_bottom = -169.0
 rotation = 1.5708
+
+[node name="BaseItem" parent="." instance=ExtResource("2_tx307")]
+position = Vector2(287, 193)
+collision_layer = 3
+collision_mask = 3
+
+[node name="BaseItem2" parent="." instance=ExtResource("2_tx307")]
+position = Vector2(664, 278)
+
+[node name="BaseItem3" parent="." instance=ExtResource("2_tx307")]
+position = Vector2(778, 147)

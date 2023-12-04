@@ -1,7 +1,8 @@
-[gd_scene load_steps=48 format=3 uid="uid://b4minadmxbr2v"]
+[gd_scene load_steps=49 format=3 uid="uid://b4minadmxbr2v"]
 
 [ext_resource type="Script" path="res://Player/player.gd" id="1_2jt2l"]
 [ext_resource type="Texture2D" uid="uid://4mrwspp75uqv" path="res://Sprites/Characters/player.png" id="2_wai0u"]
+[ext_resource type="PackedScene" uid="uid://dy4ehaadin7nd" path="res://base_item.tscn" id="3_uhct5"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gj772"]
 radius = 8.0
@@ -494,3 +495,5 @@ libraries = {
 }
 
 [node name="InHandItem" type="Node2D" parent="."]
+
+[node name="BaseItem" parent="InHandItem" instance=ExtResource("3_uhct5")]
