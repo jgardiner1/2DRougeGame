@@ -473,6 +473,7 @@ _data = {
 }
 
 [node name="Player" type="CharacterBody2D"]
+position = Vector2(0, -4)
 scale = Vector2(2.5, 2.5)
 script = ExtResource("1_2jt2l")
 
@@ -493,4 +494,3 @@ libraries = {
 }
 
 [node name="InHandItem" type="Node2D" parent="."]
-position = Vector2(2.4, 13.2)

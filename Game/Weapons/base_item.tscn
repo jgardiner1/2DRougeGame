@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dy4ehaadin7nd"]
+
+[ext_resource type="Script" path="res://Weapons/BaseItem.gd" id="1_pxh8t"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_86k2n"]
+size = Vector2(102, 30)
+
+[node name="BaseItem" type="StaticBody2D"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_pxh8t")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_86k2n")
+disabled = true
