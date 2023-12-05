@@ -86,17 +86,22 @@ func update_InHandItem_direction() -> void:
 	# Gun index goes behind if the direction is looking back, otherwise it goes to top
 	InHandItem.z_index = -1 if direction == 0 else 1
 	# Sprite is horizontally flipped if direction is left
-	get_node("AnimatedSprite2D").flip_h = true if direction == -1 else false
+	$AnimatedSprite2D.flip_h = true if direction == -1 else false
+	
+	if InHandItem.get_child_count() != 0:
+		InHandItem.get_child(0).get_child(1).get_node("ItemSprite").flip_v = true if direction == -1 else false
 
 # Executed when drop item button pressed. Nothing happens if players hand is empty
 func drop_item() -> void:
 	# executes if something is in players hand
 	if InHandItem.get_child_count() != 0:
 		var ref_item = get_node("InHandItem").get_child(0)
-		print(ref_item)
 		
 		ref_item.reparent(world)
-		collided_item.rotation = 0
+		print("Dropped: ", ref_item.get_child(1))
+		#ref_item.rotation = 0
+		#ref_item.get_child(1).get_node("ItemSprite").flip_v = false
+		#ref_item.get_child(1).get_node("ItemSprite").flip_h = false
 	else:
 		print("Nothing to drop")
 
@@ -109,7 +114,7 @@ func pickup_item() -> void:
 	collided_item.reparent(InHandItem)
 	collided_item.rotation = 0
 	collided_item.position = Vector2.ZERO
-	print("Picked up ", collided_item)
+	print("Picked up: ", collided_item.get_child(1))
 
 func print_all_nodes():
 	print(get_node("InHandItem").get_child_count())

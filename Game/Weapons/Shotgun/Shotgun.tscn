@@ -8,6 +8,7 @@ radius = 52.0096
 [node name="Shotgun" type="Node2D"]
 
 [node name="ItemSprite" type="Sprite2D" parent="."]
+position = Vector2(24, 0)
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("1_1c1k4")
 
