@@ -1,5 +1,6 @@
-extends Node2D
+extends RigidBody2D
 
+var can_pickup = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
