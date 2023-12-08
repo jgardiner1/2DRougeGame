@@ -119,3 +119,7 @@ func pickup_item() -> void:
 func print_all_nodes():
 	print(get_node("InHandItem").get_child_count())
 	print("\n")
+
+
+
+
