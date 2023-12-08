@@ -1,14 +1,22 @@
-[gd_scene load_steps=3 format=3 uid="uid://cvfy3cxyu7np1"]
+[gd_scene load_steps=5 format=3 uid="uid://cvfy3cxyu7np1"]
 
 [ext_resource type="Texture2D" uid="uid://hlrvufc7juum" path="res://Sprites/Weapons/Shotgun.png" id="1_1c1k4"]
+[ext_resource type="Script" path="res://Weapons/Shotgun/Shotgun.gd" id="1_dwyxk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ahui4"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_g1g1d"]
 radius = 52.0096
 
-[node name="Shotgun" type="Node2D"]
+[node name="Shotgun" type="RigidBody2D"]
+gravity_scale = 0.0
+script = ExtResource("1_dwyxk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ahui4")
+disabled = true
 
 [node name="ItemSprite" type="Sprite2D" parent="."]
-position = Vector2(24, 0)
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("1_1c1k4")
 

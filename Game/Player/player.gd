@@ -124,30 +124,31 @@ func pickup_item() -> void:
 	else:
 		# decide which item to pickup
 		print("more than 1 to choose from or cant pickup")
-		var smallest = 10000000
-		for item in range(collided_items.size()):
-			var dist = sqrt(pow(collided_items[item].position.x - position.x, 2) + pow(collided_items[item].position.y - position.y, 2))
-			if dist < smallest:
-				smallest = item
+		var smallest = INF
+		var smallest_index = 0
 		
-		collided_items[smallest].reparent(InHandItem)
-		collided_items.remove_at(smallest)
+		for item in range(collided_items.size()):
+			var dist = calculate_distance_between(collided_items[item].global_position, global_position)
+			if dist < smallest:
+				smallest = dist
+				smallest_index = item
+		
+		collided_items[smallest_index].reparent(InHandItem)
+		collided_items.remove_at(smallest_index)
 		InHandItem.get_child(0).position = Vector2.ZERO
-		InHandItem.get_child(0).rotation = 0
-			
-			
+
+func calculate_distance_between(item1: Vector2, item2: Vector2) -> float:
+	return sqrt(pow(item1.x - item2.x, 2) + pow(item1.y - item2.y, 2))
 
 func print_all_nodes():
-	print(get_node("InHandItem").get_child_count())
-	print("\n")
+	print("In hand size: ", get_node("InHandItem").get_child_count())
 	print("collided items size: ", collided_items.size())
-
+	for item in collided_items:
+		var distance = calculate_distance_between(item.position, position)
+		print("distance between: ", item, " and player is ", distance)
 
 func _on_area_2d_area_shape_entered(_area_rid, area, _area_shape_index, _local_shape_index):
 	collided_items.append(area.get_parent())
-	#print("Parent: ", area.get_parent())
-
 
 func _on_area_2d_area_shape_exited(_area_rid, area, _area_shape_index, _local_shape_index):
 	collided_items.remove_at(collided_items.find(area.get_parent()))
-	#print("Parent: ", area.get_parent())

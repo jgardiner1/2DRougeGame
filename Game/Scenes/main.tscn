@@ -14,49 +14,49 @@ metadata/_edit_horizontal_guides_ = [540.0]
 visibility_layer = 2
 custom_minimum_size = Vector2(100, 0)
 layout_direction = 1
-offset_left = 910.0
-offset_top = 401.0
-offset_right = 1010.0
-offset_bottom = 432.0
+offset_left = 357.0
+offset_top = 161.0
+offset_right = 457.0
+offset_bottom = 192.0
 pivot_offset = Vector2(50, 20)
 size_flags_horizontal = 3
 text = "New"
 
 [node name="ExitBtn" type="Button" parent="."]
 custom_minimum_size = Vector2(100, 0)
-offset_left = 910.0
-offset_top = 462.0
-offset_right = 1010.0
-offset_bottom = 493.0
+offset_left = 357.0
+offset_top = 222.0
+offset_right = 457.0
+offset_bottom = 253.0
 pivot_offset = Vector2(50, 20)
 size_flags_horizontal = 3
 text = "Exit"
 
 [node name="TestBtn" type="Button" parent="."]
 custom_minimum_size = Vector2(100, 0)
-offset_left = 910.0
-offset_top = 523.0
-offset_right = 1010.0
-offset_bottom = 554.0
+offset_left = 357.0
+offset_top = 283.0
+offset_right = 457.0
+offset_bottom = 314.0
 pivot_offset = Vector2(50, 20)
 size_flags_horizontal = 3
 text = "Settings"
 
 [node name="TestBtn3" type="Button" parent="."]
-offset_left = 910.0
-offset_top = 584.0
-offset_right = 1010.0
-offset_bottom = 615.0
+offset_left = 357.0
+offset_top = 344.0
+offset_right = 457.0
+offset_bottom = 375.0
 pivot_offset = Vector2(50, 20)
 size_flags_horizontal = 3
 text = "Continue"
 
 [node name="TestBtn2" type="Button" parent="."]
 custom_minimum_size = Vector2(100, 0)
-offset_left = 910.0
-offset_top = 645.0
-offset_right = 1010.0
-offset_bottom = 676.0
+offset_left = 357.0
+offset_top = 405.0
+offset_right = 457.0
+offset_bottom = 436.0
 pivot_offset = Vector2(50, 20)
 size_flags_horizontal = 3
 text = "Credits"
