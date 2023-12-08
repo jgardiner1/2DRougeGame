@@ -69,4 +69,7 @@ position = Vector2(367, 200)
 position = Vector2(256, 213)
 
 [node name="Shotgun" parent="." instance=ExtResource("3_glawk")]
-position = Vector2(465, 233)
+position = Vector2(484, 215)
+
+[node name="Shotgun2" parent="." instance=ExtResource("3_glawk")]
+position = Vector2(439, 138)
