@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=3 uid="uid://b4minadmxbr2v"]
+[gd_scene load_steps=49 format=3 uid="uid://b4minadmxbr2v"]
 
 [ext_resource type="Script" path="res://Player/player.gd" id="1_2jt2l"]
 [ext_resource type="Texture2D" uid="uid://4mrwspp75uqv" path="res://Sprites/Characters/player.png" id="2_wai0u"]
@@ -472,7 +472,12 @@ _data = {
 "SideFaceRun": SubResource("Animation_o7tov")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_pu5pt"]
+radius = 14.8
+
 [node name="Player" type="CharacterBody2D"]
+light_mask = 2
+visibility_layer = 2
 scale = Vector2(2.5, 2.5)
 script = ExtResource("1_2jt2l")
 
@@ -494,3 +499,12 @@ libraries = {
 
 [node name="InHandItem" type="Node2D" parent="."]
 position = Vector2(2.4, 13.2)
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(0, 8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_pu5pt")
+
+[connection signal="area_shape_entered" from="Area2D" to="." method="_on_area_2d_area_shape_entered"]
+[connection signal="area_shape_exited" from="Area2D" to="." method="_on_area_2d_area_shape_exited"]
