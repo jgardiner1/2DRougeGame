@@ -223,18 +223,33 @@ func reset_item(item) -> void:
 	item.rotation = 0
 
 func throw_item() -> void:
-	var itemsToRemove = []
 	if LeftHandItem.get_child_count() == 0 and RightHandItem.get_child_count() == 0 and TwoHandedItem.get_child_count() == 0:
-		print("NOTHING TO THROW")
+		return print("NOTHING TO THROW")
+		
 	if TwoHandedItem.get_child_count() == 1:
 		var item = TwoHandedItem.get_child(0)
-		itemsToRemove.append(item)
+		items_to_remove.append(item)
 		item.reparent(world)
-		var direction = (get_global_mouse_position() - position).normalized()
-		item.linear_velocity = direction * 1500
+		var throw_direction = (get_global_mouse_position() - position).normalized()
+		item.linear_velocity = throw_direction * 1500
 		item.linear_damp = 7
-		item.angular_velocity = 17
-		item.angular_damp = 2
+		item.angular_velocity = randf_range(-5, 5)
+		item.angular_damp = 1
+		return
+	
+	if RightHandItem.get_child_count() == 1:
+		var item = RightHandItem.get_child(0)
+		items_to_remove.append(item)
+		item.reparent(world)
+		var throw_direction = (get_global_mouse_position() - position).normalized()
+		item.linear_velocity = throw_direction * 1500
+		item.linear_damp = 7
+		item.angular_velocity = randf_range(-5, 5)
+		item.angular_damp = 1
+		if LeftHandItem.get_child_count() == 1:
+			items_to_remove.append(LeftHandItem.get_child(0))
+			LeftHandItem.get_child(0).reparent(RightHandItem)
+			reset_item(RightHandItem.get_child(0))
 
 # calculates distance between 2 items
 func calculate_distance_between(item1: Vector2, item2: Vector2) -> float:
@@ -258,9 +273,11 @@ func print_all_nodes():
 	#print("\n\n")
 	
 func remove_items():
-	for item in items_to_remove:
-		collided_items.remove_at(collided_items.find(item))
-	items_to_remove.clear()
+	if not items_to_remove.is_empty():
+		for item in items_to_remove:
+			collided_items.remove_at(collided_items.find(item))
+		items_to_remove.clear()
+		return
 
 func _on_area_2d_area_shape_entered(_area_rid, area, _area_shape_index, _local_shape_index):
 	#var master_parent = area.get_parent().get_parent()
@@ -269,7 +286,6 @@ func _on_area_2d_area_shape_entered(_area_rid, area, _area_shape_index, _local_s
 	collided_items.append(area.get_parent())
 
 func _on_area_2d_area_shape_exited(_area_rid, area, _area_shape_index, _local_shape_index):
-	print(area.get_parent(), " exited")
 	for item in collided_items:
 		if item == area.get_parent():
 			items_to_remove.append(item)
