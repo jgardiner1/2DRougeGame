@@ -13,8 +13,7 @@ const MIDDLE = 90
 @onready var InHandItem = get_node("InHandItem")
 @onready var world = get_parent()
 
-var collided_item = null
-var scene = load("res://Weapons/Projectiles/DefaultBullet.tscn")
+var collided_items = []
 
 # Main loop executed every frame
 func _physics_process(_delta):
@@ -90,43 +89,66 @@ func update_InHandItem_direction() -> void:
 	$AnimatedSprite2D.flip_h = true if direction == -1 else false
 	
 	if InHandItem.get_child_count() != 0:
-		InHandItem.get_child(0).get_child(1).get_node("ItemSprite").flip_v = true if direction == -1 else false
+		InHandItem.get_child(0).get_node("ItemSprite").flip_v = true if direction == -1 else false
 
 # Executed when drop item button pressed. Nothing happens if players hand is empty
 func drop_item() -> void:
 	# executes if something is in players hand
 	if InHandItem.get_child_count() != 0:
-		var ref_item = get_node("InHandItem").get_child(0)
+		
+		var ref_item = InHandItem.get_child(0)
 		
 		ref_item.reparent(world)
-		print("Dropped: ", ref_item.get_child(1))
-		#ref_item.rotation = 0
-		#ref_item.get_child(1).get_node("ItemSprite").flip_v = false
-		#ref_item.get_child(1).get_node("ItemSprite").flip_h = false
+		print("Dropped: ", ref_item)
+		ref_item.rotation = 0
+		ref_item.get_node("ItemSprite").flip_v = false
+		ref_item.get_node("ItemSprite").flip_h = false
 	else:
 		print("Nothing to drop")
 
 func pickup_item() -> void:
 	if get_node("InHandItem").get_child_count() != 0:
 		return print("Hand full")
-	if collided_item == null:
+	if collided_items == null or collided_items.is_empty():
 		return print("Nothing to pick up")
-	
-	collided_item.reparent(InHandItem)
-	collided_item.rotation = 0
-	collided_item.position = Vector2.ZERO
-	print("Picked up: ", collided_item.get_child(1))
+	if collided_items.size() == 1:
+		print(collided_items[0])
+		if collided_items[0].can_pickup:
+			# pickup that item
+			collided_items[0].reparent(InHandItem)
+			collided_items.remove_at(0)
+			InHandItem.get_child(0).position = Vector2.ZERO
+			InHandItem.get_child(0).rotation = 0
+		else:
+			print("cant pickup")
+	else:
+		# decide which item to pickup
+		print("more than 1 to choose from or cant pickup")
+		var smallest = INF
+		var smallest_index = 0
+		
+		for item in range(collided_items.size()):
+			var dist = calculate_distance_between(collided_items[item].global_position, global_position)
+			if dist < smallest:
+				smallest = dist
+				smallest_index = item
+		
+		collided_items[smallest_index].reparent(InHandItem)
+		collided_items.remove_at(smallest_index)
+		InHandItem.get_child(0).position = Vector2.ZERO
+
+func calculate_distance_between(item1: Vector2, item2: Vector2) -> float:
+	return sqrt(pow(item1.x - item2.x, 2) + pow(item1.y - item2.y, 2))
 
 func print_all_nodes():
-	print(get_node("InHandItem").get_child_count())
-	print("\n")
+	print("In hand size: ", get_node("InHandItem").get_child_count())
+	print("collided items size: ", collided_items.size())
+	for item in collided_items:
+		var distance = calculate_distance_between(item.position, position)
+		print("distance between: ", item, " and player is ", distance)
 
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("leftclick"):
-		shoot()
+func _on_area_2d_area_shape_entered(_area_rid, area, _area_shape_index, _local_shape_index):
+	collided_items.append(area.get_parent())
 
-func shoot():
-	if InHandItem.get_child_count() != 0:
-		print("shoot")
-
-
+func _on_area_2d_area_shape_exited(_area_rid, area, _area_shape_index, _local_shape_index):
+	collided_items.remove_at(collided_items.find(area.get_parent()))

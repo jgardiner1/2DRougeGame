@@ -473,7 +473,12 @@ _data = {
 "SideFaceRun": SubResource("Animation_o7tov")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_pu5pt"]
+radius = 14.8
+
 [node name="Player" type="CharacterBody2D"]
+light_mask = 2
+visibility_layer = 2
 scale = Vector2(2.5, 2.5)
 script = ExtResource("1_2jt2l")
 
@@ -498,3 +503,12 @@ libraries = {
 
 [node name="InHandItem" type="Node2D" parent="."]
 position = Vector2(2.4, 13.2)
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(0, 8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_pu5pt")
+
+[connection signal="area_shape_entered" from="Area2D" to="." method="_on_area_2d_area_shape_entered"]
+[connection signal="area_shape_exited" from="Area2D" to="." method="_on_area_2d_area_shape_exited"]

@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://cx3asga07t6xu"]
+[gd_scene load_steps=7 format=3 uid="uid://cx3asga07t6xu"]
 
 [ext_resource type="PackedScene" uid="uid://b4minadmxbr2v" path="res://Player/player.tscn" id="1_nh71t"]
-[ext_resource type="PackedScene" uid="uid://dy4ehaadin7nd" path="res://Weapons/base_item.tscn" id="2_tx307"]
 [ext_resource type="PackedScene" uid="uid://3c8mf3m67rpw" path="res://Weapons/AK47/AK47.tscn" id="3_cen27"]
+
 [ext_resource type="PackedScene" uid="uid://cvfy3cxyu7np1" path="res://Weapons/Shotgun/Shotgun.tscn" id="4_qmeuq"]
 [ext_resource type="PackedScene" uid="uid://dih0b7bs3ly1j" path="res://Weapons/Luger/Luger.tscn" id="5_fmxpa"]
+
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dmb1w"]
 size = Vector2(1207.5, 299)
@@ -16,9 +17,6 @@ size = Vector2(72, 406)
 size = Vector2(72, 406)
 
 [node name="World" type="Node2D"]
-
-[node name="Player" parent="." instance=ExtResource("1_nh71t")]
-position = Vector2(522, 214)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 collision_layer = 3
@@ -67,14 +65,17 @@ offset_right = 550.0
 offset_bottom = -169.0
 rotation = 1.5708
 
+
 [node name="BaseItem" parent="." instance=ExtResource("2_tx307")]
 position = Vector2(384, 237)
 
 [node name="Ak47" parent="BaseItem" instance=ExtResource("3_cen27")]
 position = Vector2(0, 1)
 
-[node name="BaseItem2" parent="." instance=ExtResource("2_tx307")]
-position = Vector2(628, 235)
+[node name="Player" parent="." instance=ExtResource("1_nh71t")]
+position = Vector2(367, 200)
+
+
 
 [node name="Shotgun" parent="BaseItem2" instance=ExtResource("4_qmeuq")]
 

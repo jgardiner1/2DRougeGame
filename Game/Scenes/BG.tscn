@@ -1,57 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://ifvnrc6yu7r4"]
+[gd_scene load_steps=3 format=3 uid="uid://ifvnrc6yu7r4"]
 
 [ext_resource type="Script" path="res://Scenes/BG.gd" id="1_0nria"]
-[ext_resource type="Texture2D" uid="uid://ct5piso6sfi0u" path="res://Sprites/Environment/back.png" id="1_w085i"]
-[ext_resource type="Texture2D" uid="uid://dyyq3xta1dump" path="res://Sprites/Environment/middle.png" id="2_b81j4"]
+[ext_resource type="Texture2D" uid="uid://bgployt1002ch" path="res://Sprites/Environment/PubBackground.jpg" id="2_diyq1"]
 
 [node name="BG" type="ParallaxBackground"]
 script = ExtResource("1_0nria")
+metadata/_edit_horizontal_guides_ = [540.0]
+metadata/_edit_vertical_guides_ = [960.0]
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="."]
-motion_mirroring = Vector2(1158, 0)
+scale = Vector2(0.5, 0.5)
 
 [node name="Back" type="Sprite2D" parent="ParallaxLayer"]
-position = Vector2(567, 317.5)
-scale = Vector2(3.07813, 2.77917)
-texture = ExtResource("1_w085i")
-
-[node name="ParallaxLayer2" type="ParallaxLayer" parent="."]
-motion_mirroring = Vector2(1196, 0)
-
-[node name="Middle" type="Sprite2D" parent="ParallaxLayer2"]
-position = Vector2(72, 462)
-scale = Vector2(1, 1.18478)
-texture = ExtResource("2_b81j4")
-
-[node name="Middle2" type="Sprite2D" parent="ParallaxLayer2"]
-position = Vector2(191, 452.5)
-scale = Vector2(1, 1.12228)
-texture = ExtResource("2_b81j4")
-
-[node name="Middle3" type="Sprite2D" parent="ParallaxLayer2"]
-position = Vector2(307, 473)
-texture = ExtResource("2_b81j4")
-
-[node name="Middle4" type="Sprite2D" parent="ParallaxLayer2"]
-position = Vector2(482, 472)
-texture = ExtResource("2_b81j4")
-
-[node name="Middle5" type="Sprite2D" parent="ParallaxLayer2"]
-position = Vector2(613, 452)
-scale = Vector2(1, 1.13587)
-texture = ExtResource("2_b81j4")
-
-[node name="Middle6" type="Sprite2D" parent="ParallaxLayer2"]
-position = Vector2(756, 457)
-scale = Vector2(1, 1.1413)
-texture = ExtResource("2_b81j4")
-
-[node name="Middle7" type="Sprite2D" parent="ParallaxLayer2"]
-position = Vector2(922, 453)
-scale = Vector2(1, 1.1413)
-texture = ExtResource("2_b81j4")
-
-[node name="Middle8" type="Sprite2D" parent="ParallaxLayer2"]
-position = Vector2(1092, 457)
-scale = Vector2(1, 1.1413)
-texture = ExtResource("2_b81j4")
+position = Vector2(1920, 1080)
+scale = Vector2(1.25, 1.25)
+texture = ExtResource("2_diyq1")
