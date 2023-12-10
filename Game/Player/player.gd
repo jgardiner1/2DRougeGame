@@ -14,6 +14,7 @@ const MIDDLE = 90
 @onready var world = get_parent()
 
 var collided_item = null
+var scene = load("res://Weapons/Projectiles/DefaultBullet.tscn")
 
 # Main loop executed every frame
 func _physics_process(_delta):
@@ -120,6 +121,12 @@ func print_all_nodes():
 	print(get_node("InHandItem").get_child_count())
 	print("\n")
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("leftclick"):
+		shoot()
 
+func shoot():
+	if InHandItem.get_child_count() != 0:
+		print("shoot")
 
 
