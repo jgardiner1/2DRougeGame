@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://Player/player.gd" id="1_2jt2l"]
 [ext_resource type="Texture2D" uid="uid://4mrwspp75uqv" path="res://Sprites/Characters/player.png" id="2_wai0u"]
+[ext_resource type="Script" path="res://Player/Camera2D.gd" id="3_cnyvs"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gj772"]
 radius = 8.0
@@ -314,10 +315,10 @@ tracks/1/path = NodePath("../AnimatedSprite2D:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [0, 1, 2, 3, 4, 5]
+"values": [0]
 }
 
 [sub_resource type="Animation" id="Animation_68as2"]
@@ -371,10 +372,10 @@ tracks/1/path = NodePath("../AnimatedSprite2D:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [0, 1, 2, 3, 4, 5]
+"values": [0]
 }
 
 [sub_resource type="Animation" id="Animation_swgfs"]
@@ -427,10 +428,10 @@ tracks/1/path = NodePath("../AnimatedSprite2D:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [0, 1, 2, 3, 4, 5]
+"values": [0]
 }
 
 [sub_resource type="Animation" id="Animation_o7tov"]
@@ -481,15 +482,18 @@ visibility_layer = 2
 scale = Vector2(2.5, 2.5)
 script = ExtResource("1_2jt2l")
 
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(-0.8, 0.8)
+position_smoothing_speed = 10.0
+script = ExtResource("3_cnyvs")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 8)
 shape = SubResource("CapsuleShape2D_gj772")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_u02t7")
-animation = &"FrontFaceIdle"
-
-[node name="Camera2D" type="Camera2D" parent="."]
+animation = &"SideFaceRun"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Camera2D")

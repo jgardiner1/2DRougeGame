@@ -2,7 +2,10 @@
 
 [ext_resource type="PackedScene" uid="uid://b4minadmxbr2v" path="res://Player/player.tscn" id="1_nh71t"]
 [ext_resource type="PackedScene" uid="uid://3c8mf3m67rpw" path="res://Weapons/AK47/AK47.tscn" id="3_cen27"]
-[ext_resource type="PackedScene" uid="uid://cvfy3cxyu7np1" path="res://Weapons/Shotgun/Shotgun.tscn" id="3_glawk"]
+
+[ext_resource type="PackedScene" uid="uid://cvfy3cxyu7np1" path="res://Weapons/Shotgun/Shotgun.tscn" id="4_qmeuq"]
+[ext_resource type="PackedScene" uid="uid://dih0b7bs3ly1j" path="res://Weapons/Luger/Luger.tscn" id="5_fmxpa"]
+
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dmb1w"]
 size = Vector2(1207.5, 299)
@@ -62,11 +65,21 @@ offset_right = 550.0
 offset_bottom = -169.0
 rotation = 1.5708
 
+
+[node name="BaseItem" parent="." instance=ExtResource("2_tx307")]
+position = Vector2(384, 237)
+
+[node name="Ak47" parent="BaseItem" instance=ExtResource("3_cen27")]
+position = Vector2(0, 1)
+
 [node name="Player" parent="." instance=ExtResource("1_nh71t")]
 position = Vector2(367, 200)
 
-[node name="Ak47" parent="." instance=ExtResource("3_cen27")]
-position = Vector2(256, 213)
 
-[node name="Shotgun" parent="." instance=ExtResource("3_glawk")]
-position = Vector2(465, 233)
+
+[node name="Shotgun" parent="BaseItem2" instance=ExtResource("4_qmeuq")]
+
+[node name="BaseItem3" parent="." instance=ExtResource("2_tx307")]
+position = Vector2(519, 78)
+
+[node name="Luger" parent="BaseItem3" instance=ExtResource("5_fmxpa")]
