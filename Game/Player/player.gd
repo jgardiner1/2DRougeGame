@@ -166,7 +166,7 @@ func pickup_item() -> void:
 			if RightHandItem.get_child_count() == 0:
 				# pickup that item
 				collided_items[0].reparent(RightHandItem)
-
+				
 				items_to_remove.append(collided_items[0])
 				reset_item(RightHandItem.get_child(0))
 				return print("OneHandedItem: ", RightHandItem.get_child(0), " Picked up with ", RightHandItem)
@@ -174,7 +174,7 @@ func pickup_item() -> void:
 			elif LeftHandItem.get_child_count() == 0:
 				# pickup that item
 				collided_items[0].reparent(LeftHandItem)
-
+				
 				items_to_remove.append(collided_items[0])
 				reset_item(LeftHandItem.get_child(0))
 				return print("OneHandedItem: ", LeftHandItem.get_child(0), " Picked up with ", LeftHandItem)
@@ -190,7 +190,7 @@ func pickup_item() -> void:
 			if collided_items[0].two_handed:
 				if LeftHandItem.get_child_count() == 0 and RightHandItem.get_child_count() == 0:
 					collided_items[0].reparent(TwoHandedItem)
-
+					
 					items_to_remove.append(item)
 					reset_item(TwoHandedItem.get_child(0))
 					return print("TwoHandedItem: ", TwoHandedItem.get_child(0), " Picked up with ", TwoHandedItem)
@@ -201,7 +201,7 @@ func pickup_item() -> void:
 				if RightHandItem.get_child_count() == 0:
 					# pickup that item
 					collided_items[0].reparent(RightHandItem)
-
+					
 					items_to_remove.append(item)
 					reset_item(RightHandItem.get_child(0))
 					return print("OneHandedItem: ", RightHandItem.get_child(0), " Picked up with ", RightHandItem)
@@ -209,6 +209,7 @@ func pickup_item() -> void:
 				elif LeftHandItem.get_child_count() == 0:
 					# pickup that item
 					collided_items[0].reparent(LeftHandItem)
+
 					print("removing item from collided items. size before remove is ", collided_items.size())
 					items_to_remove.append(item)
 					print("item removed: current size = ", collided_items.size())
@@ -230,6 +231,7 @@ func throw_item() -> void:
 		var item = TwoHandedItem.get_child(0)
 		items_to_remove.append(item)
 		item.reparent(world)
+		
 		var throw_direction = (get_global_mouse_position() - position).normalized()
 		item.linear_velocity = throw_direction * 1500
 		item.linear_damp = 7
@@ -241,6 +243,7 @@ func throw_item() -> void:
 		var item = RightHandItem.get_child(0)
 		items_to_remove.append(item)
 		item.reparent(world)
+
 		var throw_direction = (get_global_mouse_position() - position).normalized()
 		item.linear_velocity = throw_direction * 1500
 		item.linear_damp = 7
