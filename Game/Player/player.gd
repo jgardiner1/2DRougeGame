@@ -1,7 +1,9 @@
 extends CharacterBody2D
 
 # Player Speed
-const SPEED = 200.0
+@export var WALK_SPEED:float = 200.0
+@export var RUN_SPEED:float = 500
+var SPEED
 
 # Angles to track player direction
 const MIN = -140
@@ -48,6 +50,8 @@ func handle_movement() -> void:
 	# Get the input direction and handle the movement/deceleration.
 	var hDirection = Input.get_axis("ui_left", "ui_right")
 	var vDirection = Input.get_axis("ui_up", "ui_down")
+	
+	SPEED = RUN_SPEED if Input.is_action_pressed("run") else WALK_SPEED
 	
 	if hDirection or vDirection:
 		velocity.x = hDirection * SPEED

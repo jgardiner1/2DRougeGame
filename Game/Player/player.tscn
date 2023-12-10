@@ -481,6 +481,7 @@ light_mask = 2
 visibility_layer = 2
 scale = Vector2(2.5, 2.5)
 script = ExtResource("1_2jt2l")
+RUN_SPEED = 350.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(-0.8, 0.8)
