@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=3 uid="uid://b4minadmxbr2v"]
+[gd_scene load_steps=50 format=3 uid="uid://b4minadmxbr2v"]
 
 [ext_resource type="Script" path="res://Player/player.gd" id="1_2jt2l"]
 [ext_resource type="Texture2D" uid="uid://4mrwspp75uqv" path="res://Sprites/Characters/player.png" id="2_wai0u"]
@@ -493,7 +493,7 @@ shape = SubResource("CapsuleShape2D_gj772")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_u02t7")
-animation = &"SideFaceRun"
+animation = &"BackFaceIdle"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Camera2D")
