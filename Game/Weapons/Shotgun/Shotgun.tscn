@@ -4,23 +4,29 @@
 [ext_resource type="Script" path="res://Weapons/Shotgun/Shotgun.gd" id="1_dwyxk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ahui4"]
+size = Vector2(45, 5)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_g1g1d"]
 radius = 52.0096
 
 [node name="Shotgun" type="RigidBody2D"]
+collision_layer = 2
+collision_mask = 2
 gravity_scale = 0.0
 script = ExtResource("1_dwyxk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(14.5, -3.5)
 shape = SubResource("RectangleShape2D_ahui4")
-disabled = true
 
 [node name="ItemSprite" type="Sprite2D" parent="."]
-scale = Vector2(1.5, 1.5)
+position = Vector2(14, 0)
+scale = Vector2(0.75, 0.75)
 texture = ExtResource("1_1c1k4")
 
 [node name="PickupRadius" type="Area2D" parent="."]
+position = Vector2(14, 0)
+scale = Vector2(0.5, 0.5)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PickupRadius"]
 shape = SubResource("CircleShape2D_g1g1d")

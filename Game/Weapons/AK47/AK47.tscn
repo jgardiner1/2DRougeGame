@@ -4,17 +4,20 @@
 [ext_resource type="Script" path="res://Weapons/AK47/AK47.gd" id="1_hsav1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pu0ik"]
+size = Vector2(98, 18)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vd2v8"]
 radius = 52.0096
 
 [node name="Ak47" type="RigidBody2D"]
+collision_layer = 2
+collision_mask = 2
 gravity_scale = 0.0
 script = ExtResource("1_hsav1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2, -4)
 shape = SubResource("RectangleShape2D_pu0ik")
-disabled = true
 
 [node name="ItemSprite" type="Sprite2D" parent="."]
 texture = ExtResource("1_3casv")
