@@ -1,8 +1,7 @@
 extends Node2D
 
+@export var weapon_component : WeaponComponent
+@onready var world = get_parent()
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
+var can_pickup = true
+var capacity:int = 1
