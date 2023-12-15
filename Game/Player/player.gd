@@ -2,29 +2,30 @@ extends CharacterBody2D
 
 # Player Speed
 @export var WALK_SPEED:float = 200.0
-@export var RUN_SPEED:float = 500
+@export var RUN_SPEED:float = 350.0
 var SPEED
 
 # Angles to track player direction
-const MIN = -140
-const MAX = -40
-const MIDDLE = 90
+const MIN := -140
+const MAX := -40
+const MIDDLE := 90
 
 # Nodes needed throughout this script
 @onready var anim = get_node("AnimationPlayer")
-@onready var LeftHandItem = get_node("LeftHandItem")
-@onready var RightHandItem = get_node("RightHandItem")
-@onready var TwoHandedItem = get_node("TwoHandedItem")
+@onready var hands = get_node("Hands")
 @onready var world = get_parent()
 enum direction {BACKWARDS, RIGHT, LEFT}
 
-var collided_items = []
-var items_to_remove = []
+var items_within_reach: Array
+var items_to_remove: Array
+
+var max_hand_capacity:int = 2
+var cur_hand_capacity:int = 0
 
 # Main loop executed every frame
 func _physics_process(_delta):
 	handle_movement()
-	update_InHandItem_direction()
+	update_item_in_hand_direction_and_position()
 	handle_animations()
 	move_and_slide()
 
@@ -41,7 +42,7 @@ func _physics_process(_delta):
 # Returns angle from center of player to users mouse
 func calc_aim_rotation() -> float:
 	# calculate angle between InHandItem position and mouse cursor
-	var angle = (get_local_mouse_position() - RightHandItem.position).angle()
+	var angle = (get_global_mouse_position() - position).angle()
 	# return angle
 	return angle
 
@@ -89,174 +90,75 @@ func handle_animations() -> void:
 				anim.play("BackFaceIdle")
 
 # Updates InHandItem direction and index
-func update_InHandItem_direction() -> void:
+func update_item_in_hand_direction_and_position() -> void:
 	var angle = calc_aim_rotation()
 	
 	# set items in hand to correct rotation
-	LeftHandItem.rotation = angle
-	RightHandItem.rotation = angle
-	TwoHandedItem.rotation = angle
+	hands.rotation = angle
 	
 	# calculate which way we're facing
 	var cur_dir = determine_face_direction(rad_to_deg(angle))
 	
 	# Gun index goes behind if the direction is looking back, otherwise it goes to top
-	RightHandItem.z_index = -1 if cur_dir == 0 else 1
-	LeftHandItem.z_index = -1 if cur_dir == 0 else 1
-	TwoHandedItem.z_index = -1 if cur_dir == 0 else 1
+	hands.z_index = -1 if cur_dir == 0 else 1
 	# Sprite is horizontally flipped if direction is left
 	$AnimatedSprite2D.flip_h = true if cur_dir == 2 else false
 	
-	# Flip in hand sprites if we're looking left
-	if RightHandItem.get_child_count() != 0:
-		RightHandItem.get_child(0).get_node("ItemSprite").flip_v = true if cur_dir == 2 else false
-	if LeftHandItem.get_child_count() != 0:
-		LeftHandItem.get_child(0).get_node("ItemSprite").flip_v = true if cur_dir == 2 else false
-	if TwoHandedItem.get_child_count() != 0:
-		TwoHandedItem.get_child(0).get_node("ItemSprite").flip_v = true if cur_dir == 2 else false
+	# Flip sprites in hand if we're looking left
+	for item in hands.get_children():
+		item.get_node("ItemSprite").flip_v = true if cur_dir == 2 else false
 
 # Executed when drop item button pressed. Nothing happens if players hand is empty
 func drop_item() -> void:
-	# executes if something is in players hand
-	if TwoHandedItem.get_child_count() == 1:
-		var ref_item = TwoHandedItem.get_child(0)
-		
-		drop(ref_item)
-		
-		return print("TwoHandedItem: ", ref_item, " dropped from ", TwoHandedItem)
-	# executes 
-	elif RightHandItem.get_child_count() == 1 and LeftHandItem.get_child_count() == 1:
-		var ref_item = LeftHandItem.get_child(0)
-		
-		drop(ref_item)
-		
-		return print("OneHandedItem: ", ref_item, " dropped from ", LeftHandItem)
-	elif RightHandItem.get_child_count() == 1 and LeftHandItem.get_child_count() == 0:
-		var ref_item = RightHandItem.get_child(0)
-		
-		drop(ref_item)
-		
-		return print("OneHandedItem: ", ref_item, " dropped from ", RightHandItem)
+	if hands.get_child_count() > 0:
+		var ref_item = hands.get_child(0)
+		ref_item.reparent(world)
+		items_within_reach.append(ref_item)
+		ref_item.rotation = 0
+		ref_item.get_node("ItemSprite").flip_v = false
+		ref_item.get_node("ItemSprite").flip_h = false
+		cur_hand_capacity -= ref_item.capacity
+		return print(ref_item, " dropped. Capacity left: ", max_hand_capacity - cur_hand_capacity)
 	else:
-		return print("Nothing to drop")
-
-# reparent item from hand to world
-func drop(ref_item) -> void:
-	ref_item.reparent(world)
-	ref_item.rotation = 0
-	ref_item.get_node("ItemSprite").flip_v = false
-	ref_item.get_node("ItemSprite").flip_h = false
+		return print("No item to drop")
 
 # logic for picking up 1 and 2 handed items
 func pickup_item() -> void:
-	# check for both hands full
-	if (RightHandItem.get_child_count() == 1 and LeftHandItem.get_child_count() == 1) or TwoHandedItem.get_child_count() == 1:
-		return print("Both hands full")
-		
-	# Check if no items nearby
-	if collided_items == null or collided_items.is_empty():
-		return print("Nothing to pick up")
-		
-	# Check if only 1 item nearby and it can be picked up
-	if collided_items.size() == 1 and collided_items[0].can_pickup == true:
-		if collided_items[0].two_handed == true and LeftHandItem.get_child_count() == 0 and RightHandItem.get_child_count() == 0:
-			collided_items[0].reparent(TwoHandedItem)
-
-			items_to_remove.append(collided_items[0])
-			reset_item(TwoHandedItem.get_child(0))
-			return print("TwoHandedItem: ", TwoHandedItem.get_child(0), " Picked up with ", TwoHandedItem)
-		if collided_items[0].two_handed == false:
-			# check if right hand free
-			if RightHandItem.get_child_count() == 0:
-				# pickup that item
-				collided_items[0].reparent(RightHandItem)
-				
-				items_to_remove.append(collided_items[0])
-				reset_item(RightHandItem.get_child(0))
-				return print("OneHandedItem: ", RightHandItem.get_child(0), " Picked up with ", RightHandItem)
-			# check if left hand free
-			elif LeftHandItem.get_child_count() == 0:
-				# pickup that item
-				collided_items[0].reparent(LeftHandItem)
-				
-				items_to_remove.append(collided_items[0])
-				reset_item(LeftHandItem.get_child(0))
-				return print("OneHandedItem: ", LeftHandItem.get_child(0), " Picked up with ", LeftHandItem)
-			else:
-				return print("Not enough hands")
+	# Handles for if players hands full or nothing within reach
+	if cur_hand_capacity == max_hand_capacity:
+		return print("Cannot pick up item: hands full")
+	if items_within_reach == null or items_within_reach.is_empty():
+		return print("No item nearby to pickup")
+	
+	# Re-orders items in vicinity by closest distance to player
+	if items_within_reach.size() > 1:
+		items_within_reach.sort_custom(sort_by_distance)
+	
+	# For each item we try and pick up
+	for item in items_within_reach:
+		if cur_hand_capacity + item.capacity > max_hand_capacity:
+			print(item, " cannot be picked up. Not enough space in hands")
 		else:
-			return print("Item cannot be picked up")
-	else:
-		# Check for if there is more than one to pick up
-		collided_items.sort_custom(sort_by_distance)
-		
-		for item in collided_items:
-			if collided_items[0].two_handed:
-				if LeftHandItem.get_child_count() == 0 and RightHandItem.get_child_count() == 0:
-					collided_items[0].reparent(TwoHandedItem)
-					
-					items_to_remove.append(item)
-					reset_item(TwoHandedItem.get_child(0))
-					return print("TwoHandedItem: ", TwoHandedItem.get_child(0), " Picked up with ", TwoHandedItem)
-				else:
-					return print("Not enough hands")
-			elif not collided_items[0].two_handed:
-				# check if right hand free
-				if RightHandItem.get_child_count() == 0:
-					# pickup that item
-					collided_items[0].reparent(RightHandItem)
-					
-					items_to_remove.append(item)
-					reset_item(RightHandItem.get_child(0))
-					return print("OneHandedItem: ", RightHandItem.get_child(0), " Picked up with ", RightHandItem)
-				# check if left hand free
-				elif LeftHandItem.get_child_count() == 0:
-					# pickup that item
-					collided_items[0].reparent(LeftHandItem)
-
-					print("removing item from collided items. size before remove is ", collided_items.size())
-					items_to_remove.append(item)
-					print("item removed: current size = ", collided_items.size())
-					reset_item(LeftHandItem.get_child(0))
-					return print("OneHandedItem: ", LeftHandItem.get_child(0), " Picked up with ", LeftHandItem)
-				else:
-					return print("Not enough hands")
-
-# resets items rotation and position after being picked up
-func reset_item(item) -> void:
-	item.position = Vector2.ZERO
-	item.rotation = 0
+			item.reparent(hands)
+			item.position = Vector2.ZERO
+			item.rotation = 0
+			cur_hand_capacity += item.capacity
+			return print("Item", item, " Picked up. Capacity left: ", max_hand_capacity - cur_hand_capacity)
 
 func throw_item() -> void:
-	if LeftHandItem.get_child_count() == 0 and RightHandItem.get_child_count() == 0 and TwoHandedItem.get_child_count() == 0:
-		return print("NOTHING TO THROW")
-		
-	if TwoHandedItem.get_child_count() == 1:
-		var item = TwoHandedItem.get_child(0)
-		items_to_remove.append(item)
-		item.reparent(world)
-		
+	if hands.get_child_count() > 0:
+		var ref_item = hands.get_child(0)
+		ref_item.reparent(world)
+		items_within_reach.append(ref_item)
 		var throw_direction = (get_global_mouse_position() - position).normalized()
-		item.linear_velocity = throw_direction * 1500
-		item.linear_damp = 7
-		item.angular_velocity = randf_range(-5, 5)
-		item.angular_damp = 1
-		return
-	
-	if RightHandItem.get_child_count() == 1:
-		var item = RightHandItem.get_child(0)
-		items_to_remove.append(item)
-		item.reparent(world)
-
-		var throw_direction = (get_global_mouse_position() - position).normalized()
-		item.linear_velocity = throw_direction * 1500
-		item.linear_damp = 7
-		item.angular_velocity = randf_range(-5, 5)
-		item.angular_damp = 1
-		if LeftHandItem.get_child_count() == 1:
-			items_to_remove.append(LeftHandItem.get_child(0))
-			LeftHandItem.get_child(0).reparent(RightHandItem)
-			reset_item(RightHandItem.get_child(0))
+		ref_item.linear_velocity = throw_direction * 1500
+		ref_item.linear_damp = 7
+		ref_item.angular_velocity = randf_range(-5, 5)
+		ref_item.angular_damp = 1
+		cur_hand_capacity -= ref_item.capacity
+		return print(ref_item, " thrown. Capacity left: ", max_hand_capacity - cur_hand_capacity)
+	else:
+		return print("No item to throw")
 
 # calculates distance between 2 items
 func calculate_distance_between(item1: Vector2, item2: Vector2) -> float:
@@ -274,25 +176,20 @@ func print_all_nodes():
 	#print("Right Hand: ", RightHandItem.get_child(0))
 	#print("Two Hand: ", TwoHandedItem.get_child(0))
 	#print("\n")
-	print("Items in player radius: ", collided_items.size())
-	for item in collided_items:
-		print(item)
+	#print("Items in player radius: ", collided_items.size())
+	#for item in collided_items:
+		#print(item)
 	#print("\n\n")
 	
 func remove_items():
-	if not items_to_remove.is_empty():
-		for item in items_to_remove:
-			collided_items.remove_at(collided_items.find(item))
-		items_to_remove.clear()
-		return
+	for item in items_to_remove:
+		items_within_reach.erase(item)
+	items_to_remove.clear()
 
-func _on_area_2d_area_shape_entered(_area_rid, area, _area_shape_index, _local_shape_index):
-	#var master_parent = area.get_parent().get_parent()
-	#if master_parent != LeftHandItem and master_parent != RightHandItem and master_parent != TwoHandedItem:
-	
-	collided_items.append(area.get_parent())
+func _on_pickup_radius_area_shape_entered(_area_rid, area, _area_shape_index, _local_shape_index):
+	if area.get_parent() not in items_within_reach and not area.find_parent("Player"):
+		items_within_reach.append(area.get_parent())
 
-func _on_area_2d_area_shape_exited(_area_rid, area, _area_shape_index, _local_shape_index):
-	for item in collided_items:
-		if item == area.get_parent():
-			items_to_remove.append(item)
+func _on_pickup_radius_area_shape_exited(_area_rid, area, _area_shape_index, _local_shape_index):
+	if area.get_parent() not in items_to_remove:
+		items_to_remove.append(area.get_parent())

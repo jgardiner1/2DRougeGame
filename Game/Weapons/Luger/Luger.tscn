@@ -1,7 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://dih0b7bs3ly1j"]
+[gd_scene load_steps=8 format=3 uid="uid://dih0b7bs3ly1j"]
 
 [ext_resource type="Texture2D" uid="uid://d0scynbcqgbxu" path="res://Sprites/Weapons/luger.png" id="1_amebu"]
 [ext_resource type="Script" path="res://Weapons/Luger/Luger.gd" id="1_htpsy"]
+[ext_resource type="PackedScene" uid="uid://d11j4yow1aotd" path="res://Components/weapon_component.tscn" id="4_p24aw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h1lmm"]
+size = Vector2(35, 18)
 
 [sub_resource type="Animation" id="Animation_gov8b"]
 resource_name = "luger_shoot"
@@ -25,15 +29,20 @@ _data = {
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_30mag"]
-radius = 3.50892
+radius = 6.5192
 
-[node name="Luger" type="Node2D"]
-scale = Vector2(2, 2)
+[node name="Luger" type="RigidBody2D" node_paths=PackedStringArray("weapon_component")]
+collision_layer = 2
+collision_mask = 2
+gravity_scale = 0.0
 script = ExtResource("1_htpsy")
+weapon_component = NodePath("WeaponComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2.5, 4)
+shape = SubResource("RectangleShape2D_h1lmm")
 
 [node name="ItemSprite" type="Sprite2D" parent="."]
-position = Vector2(5.5, -3)
-scale = Vector2(0.53, 0.53)
 texture = ExtResource("1_amebu")
 hframes = 2
 vframes = 2
@@ -50,3 +59,10 @@ scale = Vector2(2, 2)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PickupRadius"]
 scale = Vector2(2, 2)
 shape = SubResource("CircleShape2D_30mag")
+
+[node name="WeaponComponent" parent="." instance=ExtResource("4_p24aw")]
+bullet_damage = 10.0
+knockback_force = 10.0
+fire_rate = 10.0
+magazine_size = 10
+max_ammo = 10

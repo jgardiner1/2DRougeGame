@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://3c8mf3m67rpw"]
+[gd_scene load_steps=6 format=3 uid="uid://3c8mf3m67rpw"]
 
 [ext_resource type="Texture2D" uid="uid://c2jenus1w6qe2" path="res://Sprites/Weapons/Ak47.png" id="1_3casv"]
 [ext_resource type="Script" path="res://Weapons/AK47/AK47.gd" id="1_hsav1"]
+[ext_resource type="PackedScene" uid="uid://d11j4yow1aotd" path="res://Components/weapon_component.tscn" id="3_wqc1l"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pu0ik"]
 size = Vector2(98, 18)
@@ -9,11 +10,12 @@ size = Vector2(98, 18)
 [sub_resource type="CircleShape2D" id="CircleShape2D_vd2v8"]
 radius = 52.0096
 
-[node name="Ak47" type="RigidBody2D"]
+[node name="Ak47" type="RigidBody2D" node_paths=PackedStringArray("weapon_component")]
 collision_layer = 2
 collision_mask = 2
 gravity_scale = 0.0
 script = ExtResource("1_hsav1")
+weapon_component = NodePath("WeaponComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-2, -4)
@@ -26,3 +28,10 @@ texture = ExtResource("1_3casv")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PickupRadius"]
 shape = SubResource("CircleShape2D_vd2v8")
+
+[node name="WeaponComponent" parent="." instance=ExtResource("3_wqc1l")]
+bullet_damage = 10.0
+knockback_force = 10.0
+fire_rate = 10.0
+magazine_size = 10
+max_ammo = 10

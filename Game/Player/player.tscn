@@ -481,7 +481,9 @@ light_mask = 2
 visibility_layer = 2
 scale = Vector2(2.5, 2.5)
 script = ExtResource("1_2jt2l")
-RUN_SPEED = 350.0
+
+[node name="Hands" type="Node2D" parent="."]
+scale = Vector2(1, 1)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(-0.8, 0.8)
@@ -502,20 +504,11 @@ libraries = {
 "": SubResource("AnimationLibrary_jsvev")
 }
 
-[node name="LeftHandItem" type="Node2D" parent="."]
-position = Vector2(4, 14)
-
-[node name="RightHandItem" type="Node2D" parent="."]
-position = Vector2(-3.2, 14)
-
-[node name="TwoHandedItem" type="Node2D" parent="."]
-position = Vector2(0.8, 14)
-
-[node name="Area2D" type="Area2D" parent="."]
+[node name="PickupRadius" type="Area2D" parent="."]
 position = Vector2(0, 8)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupRadius"]
 shape = SubResource("CircleShape2D_pu5pt")
 
-[connection signal="area_shape_entered" from="Area2D" to="." method="_on_area_2d_area_shape_entered"]
-[connection signal="area_shape_exited" from="Area2D" to="." method="_on_area_2d_area_shape_exited"]
+[connection signal="area_shape_entered" from="PickupRadius" to="." method="_on_pickup_radius_area_shape_entered"]
+[connection signal="area_shape_exited" from="PickupRadius" to="." method="_on_pickup_radius_area_shape_exited"]
