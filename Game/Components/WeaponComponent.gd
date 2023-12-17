@@ -8,6 +8,7 @@ class_name WeaponComponent
 @export var ammo_reserve : int
 @export var reload_time : float
 @export var fire_rate : float
+@export var bullet_spread : float
 
 var cur_ammo : int
 var reload_total : int
@@ -30,14 +31,43 @@ func shoot():
 		
 	var bullet_instance = bullet.instantiate()
 	get_tree().current_scene.add_child(bullet_instance)
-	bullet_instance.add_collision_exception_with(get_node("Player"))
 	
+	# set bullet start position to WeaponComponent(barrel) position
 	bullet_instance.position = global_position
+	# set bullet direction to wherever gun is facing
 	bullet_instance.velocity = global_transform.x
+	bullet_instance.velocity += global_transform.y * randf_range(-bullet_spread, bullet_spread)
+
+	# set bullet speed
 	bullet_instance.speed = bullet_speed
+	# set bullet rotation
 	bullet_instance.rotation = (get_global_mouse_position() - bullet_instance.position).angle()
 	
 	cur_ammo -= 1
+	firerate_timer.start()
+	randomize()
+	
+func shotgun_shoot():
+	if !firerate_timer.is_stopped() or !reload_timer.is_stopped() or cur_ammo == 0:
+		#print("Cant shoot so quick")
+		return
+
+	for x in range(8):
+		var bullet_instance = bullet.instantiate()
+		get_tree().current_scene.add_child(bullet_instance)
+		
+		# set bullet start position to WeaponComponent(barrel) position
+		bullet_instance.position = global_position
+		# set bullet direction to wherever gun is facing
+		bullet_instance.velocity = global_transform.x
+		bullet_instance.velocity += global_transform.y * randf_range(-bullet_spread, bullet_spread)
+
+		# set bullet speed
+		bullet_instance.speed = bullet_speed
+		# set bullet rotation
+		bullet_instance.rotation = (get_global_mouse_position() - bullet_instance.position).angle()
+		randomize()
+	
 	firerate_timer.start()
 
 func reload():

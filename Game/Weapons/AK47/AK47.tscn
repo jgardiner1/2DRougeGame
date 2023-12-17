@@ -36,3 +36,4 @@ magazine_size = 30
 ammo_reserve = 90
 reload_time = 3.0
 fire_rate = 600.0
+bullet_spread = 0.1
