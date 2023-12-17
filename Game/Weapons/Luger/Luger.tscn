@@ -62,7 +62,8 @@ shape = SubResource("CircleShape2D_30mag")
 
 [node name="WeaponComponent" parent="." instance=ExtResource("4_p24aw")]
 position = Vector2(20, -2)
-magazine_size = 8
+bullet_speed = 370.0
+magazine_size = 100
 ammo_reserve = 24
 reload_time = 1.5
-fire_rate = 60.0
+fire_rate = 120.0

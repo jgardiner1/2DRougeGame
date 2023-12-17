@@ -31,6 +31,7 @@ shape = SubResource("CircleShape2D_vd2v8")
 
 [node name="WeaponComponent" parent="." instance=ExtResource("3_wqc1l")]
 position = Vector2(49, -7)
+bullet_speed = 715.0
 magazine_size = 30
 ammo_reserve = 90
 reload_time = 3.0

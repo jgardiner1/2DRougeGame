@@ -16,8 +16,7 @@ size = Vector2(72, 406)
 [node name="World" type="Node2D"]
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
-collision_layer = 7
-collision_mask = 7
+collision_mask = 30
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 light_mask = 3
@@ -72,9 +71,15 @@ rotation = 1.5708
 
 [node name="Player" parent="." instance=ExtResource("1_nh71t")]
 position = Vector2(367, 200)
+collision_layer = 2
+collision_mask = 5
 
 [node name="Luger" parent="." instance=ExtResource("4_kcjtg")]
 position = Vector2(200, 177)
+collision_layer = 8
+collision_mask = 5
 
 [node name="Ak47" parent="." instance=ExtResource("3_cen27")]
 position = Vector2(245, 278)
+collision_layer = 8
+collision_mask = 5

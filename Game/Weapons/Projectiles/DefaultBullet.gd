@@ -1,13 +1,12 @@
 extends RigidBody2D
 
 var velocity = Vector2.ZERO
-var speed = 700
+var speed : float
 var collision_info = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
-
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):

@@ -2,6 +2,7 @@ extends Node2D
 class_name WeaponComponent
 
 @export var bullet_damage : float
+@export var bullet_speed : float
 @export var knockback_force : float
 @export var magazine_size : int
 @export var ammo_reserve : int
@@ -29,9 +30,11 @@ func shoot():
 		
 	var bullet_instance = bullet.instantiate()
 	get_tree().current_scene.add_child(bullet_instance)
+	bullet_instance.add_collision_exception_with(get_node("Player"))
 	
 	bullet_instance.position = global_position
 	bullet_instance.velocity = global_transform.x
+	bullet_instance.speed = bullet_speed
 	bullet_instance.rotation = (get_global_mouse_position() - bullet_instance.position).angle()
 	
 	cur_ammo -= 1
