@@ -4,3 +4,15 @@
 
 [node name="WeaponComponent" type="Node2D"]
 script = ExtResource("1_ows87")
+bullet_damage = 1.0
+knockback_force = 1.0
+magazine_size = 1
+reload_time = 1.0
+
+[node name="ReloadTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="FirerateTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]

@@ -30,8 +30,8 @@ texture = ExtResource("1_3casv")
 shape = SubResource("CircleShape2D_vd2v8")
 
 [node name="WeaponComponent" parent="." instance=ExtResource("3_wqc1l")]
-bullet_damage = 10.0
-knockback_force = 10.0
-fire_rate = 10.0
-magazine_size = 10
-max_ammo = 10
+position = Vector2(49, -7)
+magazine_size = 30
+ammo_reserve = 90
+reload_time = 3.0
+fire_rate = 600.0

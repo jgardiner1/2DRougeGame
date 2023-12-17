@@ -37,6 +37,8 @@ func _physics_process(_delta):
 		print_all_nodes()
 	if Input.is_action_just_pressed("throw"):
 		throw_item()
+	#if Input.is_action_pressed("shoot"):
+		#shoot()
 	remove_items()
 
 # Returns angle from center of player to users mouse
@@ -45,6 +47,11 @@ func calc_aim_rotation() -> float:
 	var angle = (get_global_mouse_position() - position).angle()
 	# return angle
 	return angle
+
+func shoot():
+	var gun = hands.get_child(0)
+	if gun != null and gun.has_node("WeaponComponent"):
+		gun.left_click()
 
 # Handles player movement
 func handle_movement() -> void:

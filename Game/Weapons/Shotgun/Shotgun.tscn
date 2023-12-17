@@ -36,6 +36,5 @@ shape = SubResource("CircleShape2D_g1g1d")
 [node name="WeaponComponent" parent="." instance=ExtResource("3_05wmj")]
 bullet_damage = 10.0
 knockback_force = 10.0
-fire_rate = 10.0
 magazine_size = 10
-max_ammo = 10
+ammo_reserve = 30
