@@ -1,8 +1,10 @@
-[gd_scene load_steps=50 format=3 uid="uid://b4minadmxbr2v"]
+[gd_scene load_steps=52 format=3 uid="uid://b4minadmxbr2v"]
 
 [ext_resource type="Script" path="res://Player/player.gd" id="1_2jt2l"]
+[ext_resource type="Script" path="res://Player/Hands.gd" id="2_nmp6w"]
 [ext_resource type="Texture2D" uid="uid://4mrwspp75uqv" path="res://Sprites/Characters/player.png" id="2_wai0u"]
 [ext_resource type="Script" path="res://Player/Camera2D.gd" id="3_cnyvs"]
+[ext_resource type="Texture2D" uid="uid://d042xuay1etge" path="res://Sprites/Misc/spiresheetearly.png" id="5_dxd2w"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gj772"]
 radius = 8.0
@@ -483,10 +485,11 @@ scale = Vector2(2.5, 2.5)
 script = ExtResource("1_2jt2l")
 
 [node name="Hands" type="Node2D" parent="."]
-scale = Vector2(1, 1)
+position = Vector2(0, 13)
+script = ExtResource("2_nmp6w")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(-0.8, 0.8)
+position = Vector2(-5.96046e-08, 5.6)
 position_smoothing_speed = 10.0
 script = ExtResource("3_cnyvs")
 
@@ -495,6 +498,7 @@ position = Vector2(0, 8)
 shape = SubResource("CapsuleShape2D_gj772")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -0.4)
 sprite_frames = SubResource("SpriteFrames_u02t7")
 animation = &"BackFaceIdle"
 
@@ -508,7 +512,22 @@ libraries = {
 position = Vector2(0, 8)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PickupRadius"]
+position = Vector2(3.76158e-37, 0)
 shape = SubResource("CircleShape2D_pu5pt")
+
+[node name="RightHand" type="Sprite2D" parent="."]
+position = Vector2(-3.80625, 13.4875)
+scale = Vector2(0.375781, 0.385938)
+texture = ExtResource("5_dxd2w")
+hframes = 4
+vframes = 4
+
+[node name="LeftHand" type="Sprite2D" parent="."]
+position = Vector2(4.4, 13.6)
+scale = Vector2(0.401562, 0.396875)
+texture = ExtResource("5_dxd2w")
+hframes = 4
+vframes = 4
 
 [connection signal="area_shape_entered" from="PickupRadius" to="." method="_on_pickup_radius_area_shape_entered"]
 [connection signal="area_shape_exited" from="PickupRadius" to="." method="_on_pickup_radius_area_shape_exited"]

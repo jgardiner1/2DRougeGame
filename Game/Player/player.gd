@@ -140,7 +140,7 @@ func pickup_item() -> void:
 			print(item, " cannot be picked up. Not enough space in hands")
 		else:
 			item.reparent(hands)
-			item.position = Vector2.ZERO
+			item.position = get_parent().globalposition
 			item.rotation = 0
 			cur_hand_capacity += item.capacity
 			return print("Item", item, " Picked up. Capacity left: ", max_hand_capacity - cur_hand_capacity)
