@@ -9,34 +9,48 @@ class_name WeaponComponent
 @export var reload_time : float
 @export var fire_rate : float
 @export var bullet_spread : float
+@export var max_recoil : float
+
+const bullet = preload("res://Weapons/Projectiles/DefaultBullet.tscn")
 
 var cur_ammo : int
 var reload_total : int
+var current_recoil := 0.0
 
 @onready var reload_timer = $ReloadTimer
 @onready var firerate_timer = $FirerateTimer
-
-const bullet = preload("res://Weapons/Projectiles/DefaultBullet.tscn")
 
 func _ready():
 	reload_timer.set_wait_time(reload_time)
 	firerate_timer.set_wait_time(60 / fire_rate)
 	print(firerate_timer.get_wait_time())
 	cur_ammo = magazine_size
-	
+
+func _process(delta):
+	if not Input.is_action_pressed("shoot"):
+		current_recoil = clamp(current_recoil - (max_recoil * 0.3), 0.0, max_recoil)
+
+
 func shoot():
+	#var sprite = get_parent().get_node("ItemSprite")
+	#var tween = get_tree().create_tween()
+	#var sprite_rotation = sprite.get_rotation()
+	#tween.tween_property(sprite, "rotation", sprite_rotation - 5, 0.05)
+	
 	if !firerate_timer.is_stopped() or !reload_timer.is_stopped() or cur_ammo == 0:
 		#print("Cant shoot so quick")
 		return
 		
 	var bullet_instance = bullet.instantiate()
+	
 	get_tree().current_scene.add_child(bullet_instance)
 	
 	# set bullet start position to WeaponComponent(barrel) position
 	bullet_instance.position = global_position
 	# set bullet direction to wherever gun is facing
 	bullet_instance.velocity = global_transform.x
-	bullet_instance.velocity += global_transform.y * randf_range(-bullet_spread, bullet_spread)
+	#bullet_instance.velocity += global_transform.y * randf_range(-bullet_spread, bullet_spread)
+	bullet_instance.velocity += global_transform.y * calc_recoil()
 
 	# set bullet speed
 	bullet_instance.speed = bullet_speed
@@ -46,7 +60,13 @@ func shoot():
 	cur_ammo -= 1
 	firerate_timer.start()
 	randomize()
+	#tween.tween_property(sprite, "rotation", sprite_rotation, 0.05)
 	
+func calc_recoil() -> float:
+	current_recoil = clamp(current_recoil + (max_recoil * 0.05), 0.0, max_recoil)
+	var recoil_degree_max = current_recoil * 0.5
+	return deg_to_rad(randf_range(-recoil_degree_max, recoil_degree_max))
+
 func shotgun_shoot():
 	if !firerate_timer.is_stopped() or !reload_timer.is_stopped() or cur_ammo == 0:
 		#print("Cant shoot so quick")
