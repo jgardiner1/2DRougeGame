@@ -32,11 +32,6 @@ func _process(delta):
 
 
 func shoot():
-	#var sprite = get_parent().get_node("ItemSprite")
-	#var tween = get_tree().create_tween()
-	#var sprite_rotation = sprite.get_rotation()
-	#tween.tween_property(sprite, "rotation", sprite_rotation - 5, 0.05)
-	
 	if !firerate_timer.is_stopped() or !reload_timer.is_stopped() or cur_ammo == 0:
 		#print("Cant shoot so quick")
 		return
@@ -49,7 +44,6 @@ func shoot():
 	bullet_instance.position = global_position
 	# set bullet direction to wherever gun is facing
 	bullet_instance.velocity = global_transform.x
-	#bullet_instance.velocity += global_transform.y * randf_range(-bullet_spread, bullet_spread)
 	bullet_instance.velocity += global_transform.y * calc_recoil()
 
 	# set bullet speed
@@ -88,6 +82,7 @@ func shotgun_shoot():
 		bullet_instance.rotation = (get_global_mouse_position() - bullet_instance.position).angle()
 		randomize()
 	
+	cur_ammo -= 1
 	firerate_timer.start()
 
 func reload():

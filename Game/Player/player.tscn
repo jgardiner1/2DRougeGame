@@ -479,6 +479,7 @@ radius = 14.8
 [node name="Player" type="CharacterBody2D"]
 light_mask = 2
 visibility_layer = 2
+position = Vector2(-1, 0)
 scale = Vector2(2.5, 2.5)
 script = ExtResource("1_2jt2l")
 

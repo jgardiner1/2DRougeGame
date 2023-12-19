@@ -99,21 +99,25 @@ func handle_animations() -> void:
 # Updates InHandItem direction and index
 func update_item_in_hand_direction_and_position() -> void:
 	var angle = calc_aim_rotation()
-	
 	# set items in hand to correct rotation
 	hands.rotation = angle
 	
+	# translate to degrees and save
+	angle = rad_to_deg(angle)
+	
 	# calculate which way we're facing
-	var cur_dir = determine_face_direction(rad_to_deg(angle))
+	var cur_dir = determine_face_direction(angle)
 	
 	# Gun index goes behind if the direction is looking back, otherwise it goes to top
 	hands.z_index = -1 if cur_dir == 0 else 1
 	# Sprite is horizontally flipped if direction is left
 	$AnimatedSprite2D.flip_h = true if cur_dir == 2 else false
 	
+	# determines if player is looking to left or right of screen so we can flip gun accordingly
+	var flipped = true if angle < -90 and angle > -180 or angle > 90 and angle < 180 else false
 	# Flip sprites in hand if we're looking left
 	for item in hands.get_children():
-		item.get_node("ItemSprite").flip_v = true if cur_dir == 2 else false
+		item.global_scale = Vector2(1, -1) if flipped else Vector2(1, 1)
 
 # Executed when drop item button pressed. Nothing happens if players hand is empty
 func drop_item() -> void:
