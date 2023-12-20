@@ -50,6 +50,7 @@ func shoot():
 	bullet_instance.speed = bullet_speed
 	# set bullet rotation
 	bullet_instance.rotation = (get_global_mouse_position() - bullet_instance.position).angle()
+	bullet_instance.damage = bullet_damage
 	
 	cur_ammo -= 1
 	firerate_timer.start()
@@ -80,6 +81,7 @@ func shotgun_shoot():
 		bullet_instance.speed = bullet_speed
 		# set bullet rotation
 		bullet_instance.rotation = (get_global_mouse_position() - bullet_instance.position).angle()
+		bullet_instance.damage = bullet_damage
 		randomize()
 	
 	cur_ammo -= 1

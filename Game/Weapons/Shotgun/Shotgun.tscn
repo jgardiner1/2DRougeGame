@@ -1,14 +1,15 @@
-[gd_scene load_steps=6 format=3 uid="uid://cvfy3cxyu7np1"]
+[gd_scene load_steps=7 format=3 uid="uid://cvfy3cxyu7np1"]
 
 [ext_resource type="Texture2D" uid="uid://hlrvufc7juum" path="res://Sprites/Weapons/Shotgun.png" id="1_1c1k4"]
 [ext_resource type="Script" path="res://Weapons/Shotgun/Shotgun.gd" id="1_dwyxk"]
-[ext_resource type="PackedScene" uid="uid://d11j4yow1aotd" path="res://Components/weapon_component.tscn" id="3_05wmj"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ahui4"]
-size = Vector2(45, 5)
+[ext_resource type="PackedScene" uid="uid://cj4btd0gokf62" path="res://Components/weapon_component.tscn" id="3_05wmj"]
+[ext_resource type="PackedScene" uid="uid://ut17kqp1al41" path="res://Components/collision_box_component.tscn" id="4_f0bwp"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_g1g1d"]
 radius = 52.0096
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0caeq"]
+size = Vector2(44, 7)
 
 [node name="Shotgun" type="RigidBody2D" node_paths=PackedStringArray("weapon_component")]
 collision_layer = 2
@@ -16,10 +17,6 @@ collision_mask = 2
 gravity_scale = 0.0
 script = ExtResource("1_dwyxk")
 weapon_component = NodePath("WeaponComponent")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(14.5, -3.5)
-shape = SubResource("RectangleShape2D_ahui4")
 
 [node name="ItemSprite" type="Sprite2D" parent="."]
 position = Vector2(14, 0)
@@ -35,7 +32,7 @@ shape = SubResource("CircleShape2D_g1g1d")
 
 [node name="WeaponComponent" parent="." instance=ExtResource("3_05wmj")]
 position = Vector2(36, -5)
-bullet_damage = 10.0
+bullet_damage = 3.0
 bullet_speed = 2000.0
 knockback_force = 10.0
 magazine_size = 10
@@ -43,3 +40,7 @@ ammo_reserve = 30
 reload_time = 6.0
 fire_rate = 60.0
 bullet_spread = 0.25
+
+[node name="CollisionBoxComponent" parent="." instance=ExtResource("4_f0bwp")]
+position = Vector2(14, -2.5)
+shape = SubResource("RectangleShape2D_0caeq")

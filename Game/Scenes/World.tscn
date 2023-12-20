@@ -82,10 +82,12 @@ collision_mask = 5
 
 [node name="Ak47" parent="." instance=ExtResource("3_cen27")]
 position = Vector2(245, 278)
-collision_layer = 8
 collision_mask = 5
 
 [node name="Shotgun" parent="." instance=ExtResource("4_hlcmf")]
 position = Vector2(472, 232)
 collision_layer = 8
 collision_mask = 5
+
+[node name="Ak48" parent="." instance=ExtResource("3_cen27")]
+position = Vector2(434, 137)

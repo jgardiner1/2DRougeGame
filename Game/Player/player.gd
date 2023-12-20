@@ -37,8 +37,7 @@ func _physics_process(_delta):
 		print_all_nodes()
 	if Input.is_action_just_pressed("throw"):
 		throw_item()
-	#if Input.is_action_pressed("shoot"):
-		#shoot()
+
 	remove_items()
 
 # Returns angle from center of player to users mouse
@@ -128,6 +127,7 @@ func drop_item() -> void:
 		ref_item.rotation = 0
 		ref_item.get_node("ItemSprite").flip_v = false
 		ref_item.get_node("ItemSprite").flip_h = false
+		ref_item.find_child("CollisionBoxComponent").set_disabled(false)
 		cur_hand_capacity -= ref_item.capacity
 		return print(ref_item, " dropped. Capacity left: ", max_hand_capacity - cur_hand_capacity)
 	else:
@@ -153,6 +153,9 @@ func pickup_item() -> void:
 			item.reparent(hands)
 			item.position = Vector2.ZERO
 			item.rotation = 0
+			item.angular_velocity = 0
+			item.linear_velocity = Vector2.ZERO
+			item.find_child("CollisionBoxComponent").set_disabled(true)
 			cur_hand_capacity += item.capacity
 			return print("Item", item, " Picked up. Capacity left: ", max_hand_capacity - cur_hand_capacity)
 
@@ -167,6 +170,7 @@ func throw_item() -> void:
 		ref_item.angular_velocity = randf_range(-5, 5)
 		ref_item.angular_damp = 1
 		cur_hand_capacity -= ref_item.capacity
+		ref_item.find_child("CollisionBoxComponent").set_disabled(false)
 		return print(ref_item, " thrown. Capacity left: ", max_hand_capacity - cur_hand_capacity)
 	else:
 		return print("No item to throw")
