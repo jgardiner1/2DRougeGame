@@ -20,13 +20,16 @@ var current_recoil := 0.0
 @onready var reload_timer = $ReloadTimer
 @onready var firerate_timer = $FirerateTimer
 
+@onready var gun_sprite = get_parent().get_node("ItemSprite")
+@onready var gun_sprite_vector = gun_sprite.position
+
 func _ready():
 	reload_timer.set_wait_time(reload_time)
 	firerate_timer.set_wait_time(60 / fire_rate)
-	print(firerate_timer.get_wait_time())
+	#print(get_parent(), firerate_timer.get_wait_time())
 	cur_ammo = magazine_size
 
-func _process(delta):
+func _process(_delta):
 	if not Input.is_action_pressed("shoot"):
 		current_recoil = clamp(current_recoil - (max_recoil * 0.3), 0.0, max_recoil)
 
@@ -35,6 +38,9 @@ func shoot():
 	if !firerate_timer.is_stopped() or !reload_timer.is_stopped() or cur_ammo == 0:
 		#print("Cant shoot so quick")
 		return
+		
+	var tween = get_tree().create_tween()
+	tween.tween_property(gun_sprite, "position", Vector2(gun_sprite.position.x - 5, gun_sprite.position.y), 0.05)
 		
 	var bullet_instance = bullet.instantiate()
 	
@@ -53,9 +59,9 @@ func shoot():
 	bullet_instance.damage = bullet_damage
 	
 	cur_ammo -= 1
+	tween.tween_property(gun_sprite, "position", gun_sprite_vector, 0.05)
 	firerate_timer.start()
 	randomize()
-	#tween.tween_property(sprite, "rotation", sprite_rotation, 0.05)
 	
 func calc_recoil() -> float:
 	current_recoil = clamp(current_recoil + (max_recoil * 0.05), 0.0, max_recoil)
@@ -64,7 +70,6 @@ func calc_recoil() -> float:
 
 func shotgun_shoot():
 	if !firerate_timer.is_stopped() or !reload_timer.is_stopped() or cur_ammo == 0:
-		#print("Cant shoot so quick")
 		return
 
 	for x in range(8):
