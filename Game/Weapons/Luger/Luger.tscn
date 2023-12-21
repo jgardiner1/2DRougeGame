@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://dih0b7bs3ly1j"]
+[gd_scene load_steps=10 format=3 uid="uid://dih0b7bs3ly1j"]
 
 [ext_resource type="Texture2D" uid="uid://d0scynbcqgbxu" path="res://Sprites/Weapons/luger.png" id="1_amebu"]
 [ext_resource type="Script" path="res://Weapons/Luger/Luger.gd" id="1_htpsy"]
 [ext_resource type="PackedScene" uid="uid://cj4btd0gokf62" path="res://Components/weapon_component.tscn" id="4_p24aw"]
 [ext_resource type="PackedScene" uid="uid://ut17kqp1al41" path="res://Components/collision_box_component.tscn" id="4_qaky0"]
+[ext_resource type="AudioStream" uid="uid://cyyoed27ig60g" path="res://Audio/Gunshots/GunshotLugar.mp3" id="5_64nk2"]
 
 [sub_resource type="Animation" id="Animation_gov8b"]
 resource_name = "luger_shoot"
@@ -60,12 +61,16 @@ shape = SubResource("CircleShape2D_30mag")
 [node name="WeaponComponent" parent="." instance=ExtResource("4_p24aw")]
 position = Vector2(20, -2)
 bullet_damage = 5.0
-bullet_speed = 370.0
-magazine_size = 100
+bullet_speed = 600.0
+magazine_size = 8
 ammo_reserve = 24
 reload_time = 1.5
-fire_rate = 120.0
+fire_rate = 500.0
 
 [node name="CollisionBoxComponent" parent="." instance=ExtResource("4_qaky0")]
 position = Vector2(2, 1)
 shape = SubResource("RectangleShape2D_3tdmq")
+
+[node name="Gunshot" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_64nk2")
+max_polyphony = 8

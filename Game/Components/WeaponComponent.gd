@@ -34,10 +34,10 @@ func _process(_delta):
 		current_recoil = clamp(current_recoil - (max_recoil * 0.3), 0.0, max_recoil)
 
 
-func shoot():
+func shoot() -> bool:
 	if !firerate_timer.is_stopped() or !reload_timer.is_stopped() or cur_ammo == 0:
 		#print("Cant shoot so quick")
-		return
+		return false
 		
 	var tween = get_tree().create_tween()
 	tween.tween_property(gun_sprite, "position", Vector2(gun_sprite.position.x - 5, gun_sprite.position.y), 0.05)
@@ -62,6 +62,7 @@ func shoot():
 	tween.tween_property(gun_sprite, "position", gun_sprite_vector, 0.05)
 	firerate_timer.start()
 	randomize()
+	return true
 	
 func calc_recoil() -> float:
 	current_recoil = clamp(current_recoil + (max_recoil * 0.05), 0.0, max_recoil)
