@@ -33,8 +33,6 @@ func _physics_process(_delta):
 		drop_item()
 	if Input.is_action_just_pressed("pickup"):
 		pickup_item()
-	if Input.is_key_pressed(KEY_T):
-		print_all_nodes()
 	if Input.is_action_just_pressed("throw"):
 		throw_item()
 
@@ -46,11 +44,6 @@ func calc_aim_rotation() -> float:
 	var angle = (get_global_mouse_position() - position).angle()
 	# return angle
 	return angle
-
-func shoot():
-	var gun = hands.get_child(0)
-	if gun != null and gun.has_node("WeaponComponent"):
-		gun.left_click()
 
 # Handles player movement
 func handle_movement() -> void:
@@ -184,17 +177,6 @@ func sort_by_distance(a, b):
 	if calculate_distance_between(a.position, position) < calculate_distance_between(b.position, position):
 		return true
 	return false
-
-func print_all_nodes():
-	print("DEBUG")
-	#print("Left Hand: ", LeftHandItem.get_child(0))
-	#print("Right Hand: ", RightHandItem.get_child(0))
-	#print("Two Hand: ", TwoHandedItem.get_child(0))
-	#print("\n")
-	#print("Items in player radius: ", collided_items.size())
-	#for item in collided_items:
-		#print(item)
-	#print("\n\n")
 	
 func remove_items():
 	for item in items_to_remove:

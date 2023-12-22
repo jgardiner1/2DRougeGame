@@ -484,7 +484,6 @@ scale = Vector2(2.5, 2.5)
 script = ExtResource("1_2jt2l")
 
 [node name="Hands" type="Node2D" parent="."]
-position = Vector2(4.4, 12)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(-0.8, 0.8)

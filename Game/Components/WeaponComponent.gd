@@ -38,7 +38,7 @@ func shoot() -> bool:
 	if !firerate_timer.is_stopped() or !reload_timer.is_stopped() or cur_ammo == 0:
 		#print("Cant shoot so quick")
 		return false
-		
+	
 	var tween = get_tree().create_tween()
 	tween.tween_property(gun_sprite, "position", Vector2(gun_sprite.position.x - 5, gun_sprite.position.y), 0.05)
 		
@@ -105,11 +105,19 @@ func reload():
 	
 	reload_total = ammo_needed if ammo_reserve >= ammo_needed else ammo_reserve 
 	reload_timer.start()
-	ammo_reserve -= reload_total
 	
-	print("RELOADING\nAmmo needed: ", ammo_needed, "\nReload Total: ", reload_total, "\nAmmo Reserve: ", ammo_reserve)
+	print("RELOADING\nCurrent Ammo: ", cur_ammo, "\nAmmo needed: ", ammo_needed, "\nReload Total: ", reload_total, "\nAmmo Reserve: ", ammo_reserve)
+
+func cancel_reload():
+	pass
+
+func _notification(what):
+	if what == NOTIFICATION_EXIT_TREE and not reload_timer.is_stopped():
+		print("cancelling reload")
+		reload_timer.stop()
 
 func _on_reload_timer_timeout():
 	print("reloaded")
 	cur_ammo += reload_total
+	ammo_reserve -= reload_total
 	reload_total = 0
