@@ -1,10 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://3c8mf3m67rpw"]
+[gd_scene load_steps=7 format=3 uid="uid://3c8mf3m67rpw"]
 
 [ext_resource type="Texture2D" uid="uid://c2jenus1w6qe2" path="res://Sprites/Weapons/Ak47.png" id="1_3casv"]
 [ext_resource type="Script" path="res://Weapons/AK47/AK47.gd" id="1_hsav1"]
 [ext_resource type="PackedScene" uid="uid://cj4btd0gokf62" path="res://Components/weapon_component.tscn" id="3_wqc1l"]
 [ext_resource type="PackedScene" uid="uid://ut17kqp1al41" path="res://Components/collision_box_component.tscn" id="4_f4rj0"]
-[ext_resource type="AudioStream" uid="uid://cikdc58g61sjl" path="res://Audio/Gunshots/GunshotAK47.mp3" id="5_d1tqx"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vd2v8"]
 radius = 52.0096
@@ -41,7 +40,3 @@ max_recoil = 15.0
 [node name="CollisionBoxComponent" parent="." instance=ExtResource("4_f4rj0")]
 position = Vector2(-1, -4.5)
 shape = SubResource("RectangleShape2D_lyxki")
-
-[node name="Gunshot" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("5_d1tqx")
-max_polyphony = 20

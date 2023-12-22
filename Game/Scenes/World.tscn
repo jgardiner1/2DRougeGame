@@ -1,9 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://cx3asga07t6xu"]
+[gd_scene load_steps=6 format=3 uid="uid://cx3asga07t6xu"]
 
 [ext_resource type="PackedScene" uid="uid://b4minadmxbr2v" path="res://Player/player.tscn" id="1_nh71t"]
 [ext_resource type="PackedScene" uid="uid://3c8mf3m67rpw" path="res://Weapons/AK47/AK47.tscn" id="3_cen27"]
-[ext_resource type="PackedScene" uid="uid://cvfy3cxyu7np1" path="res://Weapons/Shotgun/Shotgun.tscn" id="3_glawk"]
-[ext_resource type="PackedScene" uid="uid://dih0b7bs3ly1j" path="res://Weapons/Luger/Luger.tscn" id="4_kcjtg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dmb1w"]
 size = Vector2(1207.5, 299)
@@ -17,8 +15,7 @@ size = Vector2(72, 406)
 [node name="World" type="Node2D"]
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
-collision_layer = 7
-collision_mask = 7
+collision_mask = 30
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 light_mask = 3
@@ -73,18 +70,8 @@ rotation = 1.5708
 
 [node name="Player" parent="." instance=ExtResource("1_nh71t")]
 position = Vector2(367, 200)
+collision_layer = 2
+collision_mask = 5
 
-[node name="Ak47" parent="." instance=ExtResource("3_cen27")]
-position = Vector2(256, 213)
-
-[node name="Shotgun" parent="." instance=ExtResource("3_glawk")]
-position = Vector2(484, 215)
-
-[node name="Shotgun2" parent="." instance=ExtResource("3_glawk")]
-position = Vector2(439, 138)
-
-[node name="Luger" parent="." instance=ExtResource("4_kcjtg")]
-position = Vector2(291, 133)
-
-[node name="Luger2" parent="." instance=ExtResource("4_kcjtg")]
-position = Vector2(361, 133)
+[node name="Ak48" parent="." instance=ExtResource("3_cen27")]
+position = Vector2(434, 137)

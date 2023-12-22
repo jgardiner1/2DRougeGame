@@ -1,17 +1,23 @@
-[gd_scene load_steps=3 format=3 uid="uid://cu1u71mrpl2jg"]
+[gd_scene load_steps=4 format=3 uid="uid://cu1u71mrpl2jg"]
 
+[ext_resource type="Script" path="res://Weapons/Projectiles/DefaultBullet.gd" id="1_obsag"]
 [ext_resource type="Texture2D" uid="uid://u3owlj3f6p8j" path="res://Sprites/Weapons/bullet1.png" id="1_sh2xm"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ypols"]
-size = Vector2(10, 1)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_svkaq"]
+size = Vector2(8, 1)
 
-[node name="DefaultBullet" type="Node2D"]
+[node name="DefaultBullet" type="RigidBody2D"]
+collision_layer = 16
+collision_mask = 5
+gravity_scale = 0.0
+script = ExtResource("1_obsag")
 
-[node name="Node2D" type="CharacterBody2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D"]
-position = Vector2(0, 0.5)
-shape = SubResource("RectangleShape2D_ypols")
-
-[node name="Sprite2D" type="Sprite2D" parent="Node2D"]
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(8, -1)
+scale = Vector2(2, 2)
 texture = ExtResource("1_sh2xm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(8, 0)
+scale = Vector2(2, 2)
+shape = SubResource("RectangleShape2D_svkaq")

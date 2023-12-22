@@ -1,11 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://dih0b7bs3ly1j"]
+[gd_scene load_steps=10 format=3 uid="uid://dih0b7bs3ly1j"]
 
 [ext_resource type="Texture2D" uid="uid://d0scynbcqgbxu" path="res://Sprites/Weapons/luger.png" id="1_amebu"]
 [ext_resource type="Script" path="res://Weapons/Luger/Luger.gd" id="1_htpsy"]
-[ext_resource type="PackedScene" uid="uid://d11j4yow1aotd" path="res://Components/weapon_component.tscn" id="4_p24aw"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_h1lmm"]
-size = Vector2(35, 18)
+[ext_resource type="PackedScene" uid="uid://cj4btd0gokf62" path="res://Components/weapon_component.tscn" id="4_p24aw"]
+[ext_resource type="PackedScene" uid="uid://ut17kqp1al41" path="res://Components/collision_box_component.tscn" id="4_qaky0"]
+[ext_resource type="AudioStream" uid="uid://cyyoed27ig60g" path="res://Audio/Gunshots/GunshotLugar.mp3" id="5_64nk2"]
 
 [sub_resource type="Animation" id="Animation_gov8b"]
 resource_name = "luger_shoot"
@@ -31,16 +30,15 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_30mag"]
 radius = 6.5192
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3tdmq"]
+size = Vector2(34, 12)
+
 [node name="Luger" type="RigidBody2D" node_paths=PackedStringArray("weapon_component")]
 collision_layer = 2
 collision_mask = 2
 gravity_scale = 0.0
 script = ExtResource("1_htpsy")
 weapon_component = NodePath("WeaponComponent")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(2.5, 4)
-shape = SubResource("RectangleShape2D_h1lmm")
 
 [node name="ItemSprite" type="Sprite2D" parent="."]
 texture = ExtResource("1_amebu")
@@ -61,8 +59,18 @@ scale = Vector2(2, 2)
 shape = SubResource("CircleShape2D_30mag")
 
 [node name="WeaponComponent" parent="." instance=ExtResource("4_p24aw")]
-bullet_damage = 10.0
-knockback_force = 10.0
-fire_rate = 10.0
-magazine_size = 10
-max_ammo = 10
+position = Vector2(20, -2)
+bullet_damage = 5.0
+bullet_speed = 600.0
+magazine_size = 8
+ammo_reserve = 24
+reload_time = 1.5
+fire_rate = 500.0
+
+[node name="CollisionBoxComponent" parent="." instance=ExtResource("4_qaky0")]
+position = Vector2(2, 1)
+shape = SubResource("RectangleShape2D_3tdmq")
+
+[node name="Gunshot" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_64nk2")
+max_polyphony = 8

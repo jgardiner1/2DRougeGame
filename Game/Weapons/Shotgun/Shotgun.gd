@@ -4,10 +4,10 @@ extends RigidBody2D
 
 var can_pickup = true
 var capacity:int = 2
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	pass
+	if find_parent("Player"):
+		if Input.is_action_pressed("shoot"):
+			weapon_component.shotgun_shoot()
+		if Input.is_action_just_pressed("reload"):
+			weapon_component.reload()

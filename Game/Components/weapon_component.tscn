@@ -1,6 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://d11j4yow1aotd"]
+[gd_scene load_steps=2 format=3 uid="uid://cj4btd0gokf62"]
 
 [ext_resource type="Script" path="res://Components/WeaponComponent.gd" id="1_ows87"]
 
 [node name="WeaponComponent" type="Node2D"]
 script = ExtResource("1_ows87")
+bullet_damage = 1.0
+knockback_force = 1.0
+magazine_size = 1
+reload_time = 1.0
+
+[node name="ReloadTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="FirerateTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]

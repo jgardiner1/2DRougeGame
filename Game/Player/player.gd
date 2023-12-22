@@ -33,10 +33,9 @@ func _physics_process(_delta):
 		drop_item()
 	if Input.is_action_just_pressed("pickup"):
 		pickup_item()
-	if Input.is_key_pressed(KEY_T):
-		print_all_nodes()
 	if Input.is_action_just_pressed("throw"):
 		throw_item()
+
 	remove_items()
 
 # Returns angle from center of player to users mouse
@@ -92,21 +91,25 @@ func handle_animations() -> void:
 # Updates InHandItem direction and index
 func update_item_in_hand_direction_and_position() -> void:
 	var angle = calc_aim_rotation()
-	
 	# set items in hand to correct rotation
 	hands.rotation = angle
 	
+	# translate to degrees and save
+	angle = rad_to_deg(angle)
+	
 	# calculate which way we're facing
-	var cur_dir = determine_face_direction(rad_to_deg(angle))
+	var cur_dir = determine_face_direction(angle)
 	
 	# Gun index goes behind if the direction is looking back, otherwise it goes to top
 	hands.z_index = -1 if cur_dir == 0 else 1
 	# Sprite is horizontally flipped if direction is left
 	$AnimatedSprite2D.flip_h = true if cur_dir == 2 else false
 	
+	# determines if player is looking to left or right of screen so we can flip gun accordingly
+	var flipped = true if angle < -90 and angle > -180 or angle > 90 and angle < 180 else false
 	# Flip sprites in hand if we're looking left
 	for item in hands.get_children():
-		item.get_node("ItemSprite").flip_v = true if cur_dir == 2 else false
+		item.global_scale = Vector2(1, -1) if flipped else Vector2(1, 1)
 
 # Executed when drop item button pressed. Nothing happens if players hand is empty
 func drop_item() -> void:
@@ -117,6 +120,7 @@ func drop_item() -> void:
 		ref_item.rotation = 0
 		ref_item.get_node("ItemSprite").flip_v = false
 		ref_item.get_node("ItemSprite").flip_h = false
+		ref_item.find_child("CollisionBoxComponent").set_disabled(false)
 		cur_hand_capacity -= ref_item.capacity
 		return print(ref_item, " dropped. Capacity left: ", max_hand_capacity - cur_hand_capacity)
 	else:
@@ -142,6 +146,9 @@ func pickup_item() -> void:
 			item.reparent(hands)
 			item.position = Vector2.ZERO
 			item.rotation = 0
+			item.angular_velocity = 0
+			item.linear_velocity = Vector2.ZERO
+			item.find_child("CollisionBoxComponent").set_disabled(true)
 			cur_hand_capacity += item.capacity
 			return print("Item", item, " Picked up. Capacity left: ", max_hand_capacity - cur_hand_capacity)
 
@@ -156,6 +163,7 @@ func throw_item() -> void:
 		ref_item.angular_velocity = randf_range(-5, 5)
 		ref_item.angular_damp = 1
 		cur_hand_capacity -= ref_item.capacity
+		ref_item.find_child("CollisionBoxComponent").set_disabled(false)
 		return print(ref_item, " thrown. Capacity left: ", max_hand_capacity - cur_hand_capacity)
 	else:
 		return print("No item to throw")
@@ -169,17 +177,6 @@ func sort_by_distance(a, b):
 	if calculate_distance_between(a.position, position) < calculate_distance_between(b.position, position):
 		return true
 	return false
-
-func print_all_nodes():
-	print("DEBUG")
-	#print("Left Hand: ", LeftHandItem.get_child(0))
-	#print("Right Hand: ", RightHandItem.get_child(0))
-	#print("Two Hand: ", TwoHandedItem.get_child(0))
-	#print("\n")
-	#print("Items in player radius: ", collided_items.size())
-	#for item in collided_items:
-		#print(item)
-	#print("\n\n")
 	
 func remove_items():
 	for item in items_to_remove:
