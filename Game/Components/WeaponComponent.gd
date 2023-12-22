@@ -100,6 +100,9 @@ func reload():
 	if cur_ammo == magazine_size:
 		print("no need to reload")
 		return
+	if not reload_timer.is_stopped():
+		print("Currently Reloading")
+		return
 		
 	var ammo_needed :=  magazine_size - cur_ammo
 	
