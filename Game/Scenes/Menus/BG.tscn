@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://ifvnrc6yu7r4"]
 
-[ext_resource type="Script" path="res://Scenes/BG.gd" id="1_0nria"]
+[ext_resource type="Script" path="res://Scenes/Menus/BG.gd" id="1_0nria"]
 [ext_resource type="Texture2D" uid="uid://bgployt1002ch" path="res://Sprites/Environment/PubBackground.jpg" id="2_diyq1"]
 
 [node name="BG" type="ParallaxBackground"]

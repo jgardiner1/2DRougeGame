@@ -22,21 +22,28 @@ var items_to_remove: Array
 var max_hand_capacity:int = 2
 var cur_hand_capacity:int = 0
 
+#func _ready():
+	#$MultiplayerSynchronizer.set_multiplayer_authority(str(name).to_int())
+
+func _enter_tree():
+	set_multiplayer_authority(name.to_int())
+
 # Main loop executed every frame
 func _physics_process(_delta):
-	handle_movement()
-	update_item_in_hand_direction_and_position()
-	handle_animations()
-	move_and_slide()
+	if is_multiplayer_authority():
+		handle_movement()
+		update_item_in_hand_direction_and_position()
+		handle_animations()
+		move_and_slide()
 
-	if Input.is_action_just_pressed("drop"):
-		drop_item()
-	if Input.is_action_just_pressed("pickup"):
-		pickup_item()
-	if Input.is_action_just_pressed("throw"):
-		throw_item()
+		if Input.is_action_just_pressed("drop"):
+			drop_item()
+		if Input.is_action_just_pressed("pickup"):
+			pickup_item()
+		if Input.is_action_just_pressed("throw"):
+			throw_item()
 
-	remove_items()
+		remove_items()
 
 # Returns angle from center of player to users mouse
 func calc_aim_rotation() -> float:

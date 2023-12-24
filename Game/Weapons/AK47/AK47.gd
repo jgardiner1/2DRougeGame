@@ -12,6 +12,7 @@ func _ready():
 	pass
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
+@rpc("any_peer", "call_local")
 func _process(_delta):
 	if find_parent("Player"):
 		if Input.is_action_pressed("shoot"):

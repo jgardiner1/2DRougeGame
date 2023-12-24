@@ -11,7 +11,7 @@ class_name WeaponComponent
 @export var bullet_spread : float
 @export var max_recoil : float
 
-const bullet = preload("res://Weapons/Projectiles/DefaultBullet.tscn")
+@export var bullet : PackedScene
 
 var cur_ammo : int
 var reload_total : int
@@ -33,7 +33,7 @@ func _process(_delta):
 	if not Input.is_action_pressed("shoot"):
 		current_recoil = clamp(current_recoil - (max_recoil * 0.3), 0.0, max_recoil)
 
-
+@rpc("any_peer", "call_local")
 func shoot() -> bool:
 	if !firerate_timer.is_stopped() or !reload_timer.is_stopped() or cur_ammo == 0:
 		#print("Cant shoot so quick")

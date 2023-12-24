@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=3 uid="uid://b4minadmxbr2v"]
+[gd_scene load_steps=51 format=3 uid="uid://b4minadmxbr2v"]
 
 [ext_resource type="Script" path="res://Player/player.gd" id="1_2jt2l"]
 [ext_resource type="Texture2D" uid="uid://4mrwspp75uqv" path="res://Sprites/Characters/player.png" id="2_wai0u"]
@@ -476,6 +476,26 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_pu5pt"]
 radius = 14.8
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_i83nq"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("AnimatedSprite2D:flip_h")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("AnimatedSprite2D:animation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath("AnimationPlayer:current_animation")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath("Hands:position")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath("Hands:rotation")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+
 [node name="Player" type="CharacterBody2D"]
 light_mask = 2
 visibility_layer = 2
@@ -510,6 +530,9 @@ position = Vector2(0, 8)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PickupRadius"]
 shape = SubResource("CircleShape2D_pu5pt")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_i83nq")
 
 [connection signal="area_shape_entered" from="PickupRadius" to="." method="_on_pickup_radius_area_shape_entered"]
 [connection signal="area_shape_exited" from="PickupRadius" to="." method="_on_pickup_radius_area_shape_exited"]

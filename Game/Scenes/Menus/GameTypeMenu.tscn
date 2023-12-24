@@ -1,0 +1,39 @@
+[gd_scene load_steps=2 format=3 uid="uid://dgn0m4n6q5x7n"]
+
+[ext_resource type="Script" path="res://Scenes/Menus/GameTypeMenu.gd" id="1_0p1m1"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0p1m1")
+
+[node name="SinglePlayer" type="Button" parent="."]
+layout_mode = 0
+offset_left = 339.0
+offset_top = 91.0
+offset_right = 446.0
+offset_bottom = 122.0
+text = "Single Player"
+
+[node name="Multiplayer" type="Button" parent="."]
+layout_mode = 0
+offset_left = 345.0
+offset_top = 141.0
+offset_right = 442.0
+offset_bottom = 172.0
+text = "Multiplayer"
+
+[node name="Back" type="Button" parent="."]
+layout_mode = 0
+offset_left = 371.0
+offset_top = 323.0
+offset_right = 416.0
+offset_bottom = 354.0
+text = "Back"
+
+[connection signal="button_down" from="Multiplayer" to="." method="_on_multiplayer_button_down"]
+[connection signal="button_down" from="Back" to="." method="_on_back_button_down"]
